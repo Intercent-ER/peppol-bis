@@ -7614,9 +7614,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[(@schemeID='9921' or @schemeID='0201') and string-length() = 8] or cbc:EndpointID[@schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'"/>
+         <axsl:when test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[@schemeID='9921' or @schemeID='0201' or @schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[(@schemeID='9921' or @schemeID='0201') and string-length() = 8] or cbc:EndpointID[@schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[@schemeID='9921' or @schemeID='0201' or @schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'">
                <axsl:attribute name="id">INT-T01-R036</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
