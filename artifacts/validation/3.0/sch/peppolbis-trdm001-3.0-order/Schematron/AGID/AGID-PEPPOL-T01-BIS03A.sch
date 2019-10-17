@@ -36,7 +36,7 @@ CustomizationID = 'urn:fdc:peppol.eu:poacc:trns:order:3:extended:urn:www.ubl-ita
 	</rule>
 	
 	<rule context="//cac:SellerSupplierParty/cac:Party" flag="fatal"> 
-		<assert test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[(@schemeID='9921' or @schemeID='0201') and string-length() = 8] or cbc:EndpointID[@schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'" flag="fatal" id="INT-T01-R036">INT-T01-R036 - Un ordine DEVE riportare nell’EndpointID del fornitore italiano: il Participant ID PEPPOL oppure il codice destinatario (CODDEST) composto da 8 caratteri ASCII alfanumerici maiuscoli oppure la PEC.</assert>
+		<assert test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[@schemeID='9921' or @schemeID='0201' or @schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'" flag="fatal" id="INT-T01-R036">INT-T01-R036 - Un ordine DEVE riportare nell’EndpointID del fornitore italiano: il Participant ID PEPPOL oppure il codice destinatario (CODDEST) composto da 8 caratteri ASCII alfanumerici maiuscoli oppure la PEC.</assert>
 	</rule>
 	
 	<rule context="//cbc:*" flag="fatal"> 
