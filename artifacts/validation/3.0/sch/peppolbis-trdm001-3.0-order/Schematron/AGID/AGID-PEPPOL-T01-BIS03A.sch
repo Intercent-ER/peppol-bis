@@ -32,7 +32,7 @@ CustomizationID = 'urn:fdc:peppol.eu:poacc:trns:order:3:extended:urn:www.ubl-ita
 	<rule context="//cac:BuyerCustomerParty/cac:Party" flag="fatal"> 
 		<assert test="cac:PartyName/cbc:Name and cac:PostalAddress/cac:Country/cbc:IdentificationCode and cac:PartyTaxScheme/cbc:CompanyID" flag="fatal" id="INT-T01-R002">[INT-T01-R002] - L'ordine DEVE contenere il nome, il paese e l'identificativo fiscale della parte ordinane (Acquirente).</assert>
 		<assert test="not(cac:PartyIdentification/cbc:ID) or cac:PartyIdentification/cbc:ID/@schemeID='9921' or cac:PartyIdentification/cbc:ID/@schemeID='0201'" flag="fatal" id="INT-T01-R032">INT-T01-R032 - Un ordine deve riportare obbligatoriamente un solo identificatore della parte di business (party identification) del Buyer. Nel caso di Buyer di tipo PA deve riportare lo schema IPA.</assert>
-		<assert test="cac:PartyIdentification/cbc:ID[@schemeID='9921' or @schemeID='0201'][string-length(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789','')) = 0 and string-length() = 6] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201']" flag="fatal" id="INT-T01-R033">INT-T01-R033 - Un ordine DEVE contenere Il codice UFE IPA dell'ufficio della PA che lo ha emesso, composto da 6 caratteri ASCII alfanumerici maiuscoli.</assert>
+		<assert test="cac:PartyIdentification/cbc:ID[@schemeID='9921' or @schemeID='0201'][matches(.,'^[A-Z0-9]{6}$')] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201'][string-length() = 6]" flag="fatal" id="INT-T01-R033">INT-T01-R033 - Un ordine DEVE contenere Il codice UFE IPA dell'ufficio della PA che lo ha emesso, composto da 6 caratteri ASCII alfanumerici maiuscoli.</assert>
 	</rule>
 	
 	<rule context="//cac:SellerSupplierParty/cac:Party" flag="fatal"> 
