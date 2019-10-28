@@ -1185,7 +1185,7 @@ Esempi di ruoli risoperti dal fornitore sono: venditore, parte consegnante, cred
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT-T01-R026</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Se l&#8217;identificatore di endpoint si basa sullo schema di identificatori IT:IPA (ICD: 0201), questo dovrà seguire la sintassi [A-Z0-9]{6,7}.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Se l&#8217;identificatore di endpoint si basa sullo schema di identificatori IT:IPA (ICD: 0201 ex 9921), questo dovrà seguire la sintassi [A-Z0-9]{6,8}.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fatal</p></td>
 </tr>
 <tr>
@@ -1201,7 +1201,7 @@ Esempi di ruoli risoperti dal fornitore sono: venditore, parte consegnante, cred
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT-T01-R029</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Il Codice Identificativo Gara (CIG) deve essere sempre indicato in testata all&#8217;Ordine o a livello di riga.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Warning</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fatal</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT-T01-R032</p></td>
@@ -1225,7 +1225,7 @@ Esempi di ruoli risoperti dal fornitore sono: venditore, parte consegnante, cred
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">INT-T01-R036</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Un ordine DEVE contenere il codice destinatario del fornitore, composto da 7 caratteri ASCII alfanumerici.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Un ordine DEVE riportare nell’EndpointID del fornitore italiano: il Participant ID PEPPOL oppure il codice destinatario (CODDEST) composto da 8 caratteri ASCII alfanumerici maiuscoli oppure la PEC.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fatal</p></td>
 </tr>
 <tr>
@@ -2239,12 +2239,12 @@ Quando si utilizza un documento d’istanza, ciascun elemento di dati contiene i
 <div class="sectionbody">
 <div style="page-break-after: always;"></div>
 <div class="sect2">
-<h3 id="trueparti-di-business"><a class="anchor" href="#trueparti-di-business"></a>9.1. Parti di business</h3>
+<h3 id="trueparti-di-business"><a class="anchor" href="#trueparti-di-business"></a>Parti di business</h3>
 <div class="paragraph">
 <p>Le seguenti parti/ruoli possono essere specificate nel messaggio:</p>
 </div>
 <div class="sect3">
-<h4 id="truevenditore-sellersupplierparty"><a class="anchor" href="#truevenditore-sellersupplierparty"></a>9.1.1. Venditore (SellerSupplierParty)</h4>
+<h4 id="truevenditore-sellersupplierparty"><a class="anchor" href="#truevenditore-sellersupplierparty"></a>Venditore (SellerSupplierParty)</h4>
 <div class="paragraph">
 <p>Il venditore è la persona giuridica che agisce per conto del fornitore e che vende la merce o i servizi all’acquirente. Il venditore è obbligatorio in quanto destinatario dell’ordine PEPPOL, pertanto si raccomanda di includere l’EndpointID (ID partecipante) con il quale è registrato su PEPPOL.</p>
 </div>
@@ -2254,9 +2254,6 @@ Quando si utilizza un documento d’istanza, ciascun elemento di dati contiene i
 <pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;cac:SellerSupplierParty&gt;
     &lt;cac:Party&gt;
 	 &lt;cbc:EndpointID schemeID="9906"&gt;IT01234567890&lt;/cbc:EndpointID&gt;
-	 &lt;cac:PartyIdentification&gt;
-	 	&lt;cbc:ID schemeID="9906"&gt;IT01234567890&lt;/cbc:ID&gt;
-	 &lt;/cac:PartyIdentification&gt;
 	 &lt;cac:PartyName&gt;
 	 	&lt;cbc:Name&gt;Venditore S.p.A.&lt;/cbc:Name&gt;
 	 &lt;/cac:PartyName&gt;
@@ -2292,9 +2289,49 @@ Quando si utilizza un documento d’istanza, ciascun elemento di dati contiene i
 &lt;/cac:SellerSupplierParty&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">Esempio di Informazioni per un venditore estero (es. Belgio)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;cac:SellerSupplierParty&gt;
+    &lt;cac:Party&gt;
+	 &lt;cbc:EndpointID schemeID="9925"&gt;0999999999&lt;/cbc:EndpointID
+	 &lt;cac:PartyName&gt;
+	 	&lt;cbc:Name&gt;Venditore Estero&lt;/cbc:Name&gt;
+	 &lt;/cac:PartyName&gt;
+	 &lt;cac:PostalAddress&gt;
+	 	&lt;cbc:StreetName&gt; Rue Emile Claus 28&lt;/cbc:StreetName&gt;
+		&lt;cbc:AdditionalStreetName&gt;Quartiere&lt;/cbc:AdditionalStreetName&gt;
+		&lt;cbc:CityName&gt;Bruxelles&lt;/cbc:CityName&gt;
+		&lt;cbc:PostalZone&gt;1050&lt;/cbc:PostalZone&gt;
+		&lt;cac:AddressLine&gt;
+		&lt;cbc:Line&gt;Deposito Consegnatario: Venditore Estero&lt;/cbc:Line&gt;
+		&lt;/cac:AddressLine&gt;
+			&lt;cac:Country&gt;
+			&lt;cbc:IdentificationCode listID="ISO3166-1:Alpha2"&gt;BE&lt;/cbc:IdentificationCode&gt;
+			&lt;/cac:Country&gt;
+	 &lt;/cac:PostalAddress&gt;
+	 &lt;cac:PartyLegalEntity&gt;
+	 	&lt;cbc:RegistrationName&gt;Venditore Estero&lt;/cbc:RegistrationName&gt;
+	 	&lt;cbc:CompanyID&gt;0999999999&lt;/cbc:CompanyID&gt;
+	 	&lt;cac:RegistrationAddress&gt;
+	 		&lt;cbc:CityName&gt;Bologna&lt;/cbc:CityName&gt;
+	 		&lt;cac:Country&gt;
+            &lt;cbc:IdentificationCode listID="ISO3166-1:Alpha2"&gt;IT&lt;/cbc:IdentificationCode&gt;
+	 		&lt;/cac:Country&gt;
+	 	&lt;/cac:RegistrationAddress&gt;
+	 &lt;/cac:PartyLegalEntity&gt;
+	 &lt;cac:Contact&gt;
+	 	&lt;cbc:Name&gt;Lucio Grande&lt;/cbc:Name&gt;
+	 	&lt;cbc:Telephone&gt;003241102030&lt;/cbc:Telephone&gt;
+	 	&lt;cbc:ElectronicMail&gt;lucio.grande@belgio.be&lt;/cbc:ElectronicMail&gt;
+	 &lt;/cac:Contact&gt;
+    &lt;/cac:Party&gt;
+&lt;/cac:SellerSupplierParty&gt;</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="trueacquirente-buyercustomerparty"><a class="anchor" href="#trueacquirente-buyercustomerparty"></a>9.1.2. Acquirente (BuyerCustomerParty)</h4>
+<h4 id="trueacquirente-buyercustomerparty"><a class="anchor" href="#trueacquirente-buyercustomerparty"></a>Acquirente (BuyerCustomerParty)</h4>
 <div class="paragraph">
 <p>L’acquirente è la persona giuridica che agisce per conto del cliente e che acquista la merce o i servizi. L’acquirente è obbligatorio in quanto mittente del messaggio dell’ordine PEPPOL, pertanto si raccomanda di includere l’EndpointID (ID partecipante) con il quale è registrato in PEPPOL.
 Il nome e l’identificativo fiscale dell’acquirente sono inoltre un requisito di questa implementazione per permettere all’access point di identificare ed autorizzare il mittente all’inoltro dell’ordine sulla rete (INT-T01-R002).
@@ -2352,7 +2389,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect3">
-<h4 id="truecommittente-originatorcustomerparty"><a class="anchor" href="#truecommittente-originatorcustomerparty"></a>9.1.3. Committente (OriginatorCustomerParty)</h4>
+<h4 id="truecommittente-originatorcustomerparty"><a class="anchor" href="#truecommittente-originatorcustomerparty"></a>Committente (OriginatorCustomerParty)</h4>
 <div class="paragraph">
 <p>Generalmente, il committente è l&#8217;utente finale che emette l’ordine. Le informazioni presenti nel messaggio dell&#8217;ordine inerenti al committente sono facoltative.</p>
 </div>
@@ -2378,9 +2415,9 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect3">
-<h4 id="trueintestatario-fattura-accountingcustomerparty"><a class="anchor" href="#trueintestatario-fattura-accountingcustomerparty"></a>9.1.4. Intestatario fattura (AccountingCustomerParty)</h4>
+<h4 id="trueintestatario-fattura-accountingcustomerparty"><a class="anchor" href="#trueintestatario-fattura-accountingcustomerparty"></a>Intestatario fattura (AccountingCustomerParty)</h4>
 <div class="paragraph">
-<p>L’intestatario della fattura è la persona giuridica che agisce per conto del Cliente e che riceve la fattura relativa all’ordine. Le informazioni sull’intestatario della fattura sono opzionali nel messaggio dell’Ordine PEPPOL. Vedi regola INT-T01-R002, su <a href="#trueregole-di-business-italiane">Regole di business italiane</a>.</p>
+<p>L’intestatario della fattura è la persona giuridica che agisce per conto del Cliente e che riceve la fattura relativa all’ordine. Le informazioni sull’intestatario della fattura sono opzionali nel messaggio dell’Ordine PEPPOL. Vedi regola INT-T01-R002, su <a href="#Regole di business italiane">[Regole di business italiane]</a>.</p>
 </div>
 <div class="listingblock">
 <div class="title">Esempio di informazioni dell&#8217;intestatario fattura</div>
@@ -2448,7 +2485,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueriferimento-ad-unaltro-ordine"><a class="anchor" href="#trueriferimento-ad-unaltro-ordine"></a>9.2. Riferimento ad un’altro ordine</h3>
+<h3 id="trueriferimento-ad-unaltro-ordine"><a class="anchor" href="#trueriferimento-ad-unaltro-ordine"></a>Riferimento ad un’altro ordine</h3>
 <div class="paragraph">
 <p>In caso di cancellazione o modifica di un ordine è necessario riportare gli elementi che lo identificano nel segmento “OrderDocumentReference/ID" valorizzato con la concatenazione dei seguenti campi:</p>
 </div>
@@ -2472,7 +2509,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 <p>Per gli ordini precedenti con stato “Revised”, l’ordine rappresenta quindi sempre la nuova versione che sostituisce il precedente.</p>
 </div>
 <div class="sect3">
-<h4 id="trueesempio-di-cancellazione-di-un-ordine-precedente"><a class="anchor" href="#trueesempio-di-cancellazione-di-un-ordine-precedente"></a>9.2.1. Esempio di cancellazione di un ordine precedente</h4>
+<h4 id="trueesempio-di-cancellazione-di-un-ordine-precedente"><a class="anchor" href="#trueesempio-di-cancellazione-di-un-ordine-precedente"></a>Esempio di cancellazione di un ordine precedente</h4>
 <div class="paragraph">
 <p>L’Ordine precedente in riferimento viene cancellato e il presente Ordine contiene righe vuote (NA) e i segmenti TaxTotal e AnticipatedMonetaryTotal non devono essere presenti.</p>
 </div>
@@ -2495,7 +2532,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect3">
-<h4 id="trueesempio-di-modifica-di-un-ordine-precedente"><a class="anchor" href="#trueesempio-di-modifica-di-un-ordine-precedente"></a>9.2.2. Esempio di modifica di un ordine precedente</h4>
+<h4 id="trueesempio-di-modifica-di-un-ordine-precedente"><a class="anchor" href="#trueesempio-di-modifica-di-un-ordine-precedente"></a>Esempio di modifica di un ordine precedente</h4>
 <div class="paragraph">
 <p>L’Ordine precedente in riferimento viene modificato dal presente Ordine che contiene tutte le righe necessarie e che pertanto rappresenta completamente il nuovo ordine.</p>
 </div>
@@ -2526,7 +2563,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect2">
-<h3 id="truealtri-riferimenti"><a class="anchor" href="#truealtri-riferimenti"></a>9.3. Altri Riferimenti</h3>
+<h3 id="truealtri-riferimenti"><a class="anchor" href="#truealtri-riferimenti"></a>Altri Riferimenti</h3>
 <div class="paragraph">
 <p>Nel procurement pubblico possono essere diversi i riferimenti necessari a identificare una fornitura. Per fornire gli estremi di un documento a cui ci si riferisce dalla testata o dalle righe d’ordine è necessario specificarne l’identificativo. Le seguenti tipologie di documento possono essere utilizzate sia in testata che dalle righe d’ordine. Altre tipologie possono essere utilizzate liberamente, purché non siano in contrasto con altre informazioni per le quali esiste già una precisa posizione nel documento.</p>
 </div>
@@ -2591,7 +2628,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="trueriferimento-al-documento-che-ha-originato-lordine"><a class="anchor" href="#trueriferimento-al-documento-che-ha-originato-lordine"></a>9.3.1. Riferimento al documento che ha originato l’ordine</h4>
+<h4 id="trueriferimento-al-documento-che-ha-originato-lordine"><a class="anchor" href="#trueriferimento-al-documento-che-ha-originato-lordine"></a>Riferimento al documento che ha originato l’ordine</h4>
 <div class="paragraph">
 <p>In certi casi è necessario evidenziare quale sia il documento che ha originato l’ordine. Trattasi di riferimento necessario solitamente solo a livello di testata ordine.</p>
 </div>
@@ -2605,7 +2642,7 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect3">
-<h4 id="trueriferimento-aggiuntivo-a-livello-di-testata"><a class="anchor" href="#trueriferimento-aggiuntivo-a-livello-di-testata"></a>9.3.2. Riferimento aggiuntivo a livello di testata</h4>
+<h4 id="trueriferimento-aggiuntivo-a-livello-di-testata"><a class="anchor" href="#trueriferimento-aggiuntivo-a-livello-di-testata"></a>Riferimento aggiuntivo a livello di testata</h4>
 <div class="listingblock">
 <div class="title">Esempio di riferimento con una delibera a livello di testata ordine.</div>
 <div class="content">
@@ -2616,17 +2653,14 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 </div>
 </div>
 <div class="sect3">
-<h4 id="trueriferimento-aggiuntivo-a-livello-di-riga"><a class="anchor" href="#trueriferimento-aggiuntivo-a-livello-di-riga"></a>9.3.3. Riferimento aggiuntivo a livello di riga</h4>
+<h4 id="trueriferimento-aggiuntivo-a-livello-di-riga"><a class="anchor" href="#trueriferimento-aggiuntivo-a-livello-di-riga"></a>Riferimento aggiuntivo a livello di riga</h4>
 <div class="listingblock">
-<div class="title">Esempio di riferimento ad un CIG, un IMPEGNO e a un DDT a livello di riga:</div>
+<div class="title">Esempio di riferimento ad un IMPEGNO e a un DDT a livello di riga:</div>
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;cac:OrderLine&gt;
     &lt;cac:LineItem&gt;
         &lt;cac:Item&gt;
 		...
-            &lt;cac:ItemSpecificationDocumentReference&gt;
-                &lt;cbc:Id&gt;CIG:1Z1A3EE456&lt;/cbc:Id&gt;
-            &lt;/cac:ItemSpecificationDocumentReference&gt;
             &lt;cac:ItemSpecificationDocumentReference&gt;
                 &lt;cbc:Id&gt;IMPEGNO123&lt;/cbc:Id&gt;
             &lt;/cac:ItemSpecificationDocumentReference&gt;
@@ -2639,10 +2673,53 @@ Il campo “PartyIdendification/ID” è obbligatorio e deve essere presente con
 &lt;/cac:OrderLine&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">Esempio di riferimento ad un CIG a livello di riga, con o senza prefisso:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;cac:OrderLine&gt;
+    &lt;cac:LineItem&gt;
+        &lt;cac:Item&gt;
+		...
+            &lt;cac:ItemSpecificationDocumentReference&gt;
+                &lt;cbc:Id&gt;CIG:1Z1A3EE456&lt;/cbc:Id&gt;
+            &lt;/cac:ItemSpecificationDocumentReference&gt;
+		...
+        &lt;/cac:Item&gt;
+    &lt;/cac:LineItem&gt;
+&lt;/cac:OrderLine&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;cac:OrderLine&gt;
+    &lt;cac:LineItem&gt;
+        &lt;cac:Item&gt;
+		...
+            &lt;cac:ItemSpecificationDocumentReference&gt;
+                &lt;cbc:Id&gt;1Z1A3EE456&lt;/cbc:Id&gt;
+            &lt;/cac:ItemSpecificationDocumentReference&gt;
+		...
+        &lt;/cac:Item&gt;
+    &lt;/cac:LineItem&gt;
+&lt;/cac:OrderLine&gt;</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Su riga il codice CIG può essere usato sia con prefisso CIG: che senza prefisso.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueallegati"><a class="anchor" href="#trueallegati"></a>9.4. Allegati</h3>
+<h3 id="trueallegati"><a class="anchor" href="#trueallegati"></a>Allegati</h3>
 <div class="paragraph">
 <p>I documenti non-XML possono essere inviati come allegato all’Ordine PEPPOL. Questi potrebbero essere disegni o resoconti di ore lavorate o altri documenti rilevanti per l’Ordine. L’allegato può essere inviato come oggetto binario codificato in Base64, incorporato nel message o come URI ad un indirizzo esterno.</p>
 </div>
@@ -2703,7 +2780,7 @@ Gli allegati possono essere utilizzati come informazioni aggiuntive ma non come 
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueidentificazione-prodotto"><a class="anchor" href="#trueidentificazione-prodotto"></a>9.5. Identificazione prodotto</h3>
+<h3 id="trueidentificazione-prodotto"><a class="anchor" href="#trueidentificazione-prodotto"></a>Identificazione prodotto</h3>
 <div class="paragraph">
 <p>I prodotti devono essere identificati utilizzando i seguenti identificatori:</p>
 </div>
@@ -2750,7 +2827,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect3">
-<h4 id="truedettaglio-sui-dispositivi-medici-e-loro-identificazione"><a class="anchor" href="#truedettaglio-sui-dispositivi-medici-e-loro-identificazione"></a>9.5.1. Dettaglio sui Dispositivi Medici e loro identificazione</h4>
+<h4 id="truedettaglio-sui-dispositivi-medici-e-loro-identificazione"><a class="anchor" href="#truedettaglio-sui-dispositivi-medici-e-loro-identificazione"></a>Dettaglio sui Dispositivi Medici e loro identificazione</h4>
 <div class="paragraph">
 <p>In questo esempio cac:CommodityClassification/cbc:ItemClassificationCode viene fornito il numero di registrazione attribuito al dispositivo medico nella Banca dati e Repertorio Dispositivi Medici dal Ministero della Salute.</p>
 </div>
@@ -2793,7 +2870,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="truenome-e-descrizione-prodotto"><a class="anchor" href="#truenome-e-descrizione-prodotto"></a>9.6. Nome e descrizione prodotto</h3>
+<h3 id="truenome-e-descrizione-prodotto"><a class="anchor" href="#truenome-e-descrizione-prodotto"></a>Nome e descrizione prodotto</h3>
 <div class="paragraph">
 <p>Il nome del Prodotto deve essere fornito nell’elemento Item/Name a livello di riga. La sua descrizione può essere fornita in <span class="Silver">cac:Item/cbc:Description</span>.</p>
 </div>
@@ -2809,7 +2886,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="truecentro-di-costo"><a class="anchor" href="#truecentro-di-costo"></a>9.7. Centro di Costo</h3>
+<h3 id="truecentro-di-costo"><a class="anchor" href="#truecentro-di-costo"></a>Centro di Costo</h3>
 <div class="paragraph">
 <p>Gli ordini di approvvigionamento di certi settori, come ad esempio quello sanitario, necessitano di identificare precisamente il Centro di Costo di ogni articolo ordinato. Nell’esempio che segue si evidenzia come un’ordine possa contenere gli articoli richiesti da diverse unità operative (U.O.) che solitamente corrispondono a diversi centri di costo.</p>
 </div>
@@ -2849,7 +2926,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="truequantità-e-unità-di-misura"><a class="anchor" href="#truequantità-e-unità-di-misura"></a>9.8. Quantità e unità di misura</h3>
+<h3 id="truequantità-e-unità-di-misura"><a class="anchor" href="#truequantità-e-unità-di-misura"></a>Quantità e unità di misura</h3>
 <div class="paragraph">
 <p>Nell’Ordine PEPPOL possono essere fornite diverse Quantità e le relative Unità di misura. Esse sono relazionate sia al processo dell’ordine che a quello della logistica. La tabella seguente elenca le quantità e le relative unità di misura previste. Ogni quantità deve avere la sua unità di misura espressa secondo le <a href="../../attachments/Intercent-ER-Code-Lists_Peppol-3.xls">Codifiche e Identificatori</a>.</p>
 </div>
@@ -2893,7 +2970,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueprezzi"><a class="anchor" href="#trueprezzi"></a>9.9. Prezzi</h3>
+<h3 id="trueprezzi"><a class="anchor" href="#trueprezzi"></a>Prezzi</h3>
 <div class="paragraph">
 <p>Nel processo dell’ordine i prezzi possono essere scambiati  sia per prodotti specificati con il nome che mediante identificatori. Questo permette al venditore di cambiare il prezzo nella risposta d’Ordine.</p>
 </div>
@@ -2917,7 +2994,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueomaggi"><a class="anchor" href="#trueomaggi"></a>9.10. Omaggi</h3>
+<h3 id="trueomaggi"><a class="anchor" href="#trueomaggi"></a>Omaggi</h3>
 <div class="paragraph">
 <p>Per includere nell’ordine degli articoli in omaggio è necessario indicarli in riga separata rispetto a quelli a pagamento e poi si deve indicare sia l’importo di riga che il prezzo con importo a 0 (zero).</p>
 </div>
@@ -2939,9 +3016,9 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="truesconti-e-maggiorazioni"><a class="anchor" href="#truesconti-e-maggiorazioni"></a>9.11. Sconti e maggiorazioni</h3>
+<h3 id="truesconti-e-maggiorazioni"><a class="anchor" href="#truesconti-e-maggiorazioni"></a>Sconti e maggiorazioni</h3>
 <div class="sect3">
-<h4 id="trueregole-generali"><a class="anchor" href="#trueregole-generali"></a>9.11.1. Regole generali</h4>
+<h4 id="trueregole-generali"><a class="anchor" href="#trueregole-generali"></a>Regole generali</h4>
 <div class="paragraph">
 <p>Gli elementi per specificare sconti e maggiorazioni si trovano su due  livelli.</p>
 </div>
@@ -2963,7 +3040,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 <p>L&#8217;indicazione IVA per sconti e maggiorazioni ( cac:TaxCategory con i suoi sotto elementi ) deve essere fornita</p>
 </li>
 <li>
-<p>La somma di tutti gli sconti e maggiorazioni a livello di testata deve essere specificato rispettivamente nel AllowanceTotalAmount e nel ChargeTotalAmount, vedi  <a href="#truecalcolo-dei-totali-anticipatedmonetarytotals">Calcolo dei totali (AnticipatedMonetaryTotals)</a></p>
+<p>La somma di tutti gli sconti e maggiorazioni a livello di testata deve essere specificato rispettivamente nel AllowanceTotalAmount e nel ChargeTotalAmount, vedi  <a href="#truecalcolo-dei-totali-anticipatedmonetarytotals">Calcolo dei totali (AnticipatedMonetaryTotals)</a></p>
 </li>
 </ul>
 </div>
@@ -2991,7 +3068,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect3">
-<h4 id="truesconti-e-maggiornazioni-a-livello-di-testata"><a class="anchor" href="#truesconti-e-maggiornazioni-a-livello-di-testata"></a>9.11.2. Sconti e maggiornazioni a livello di testata</h4>
+<h4 id="truesconti-e-maggiornazioni-a-livello-di-testata"><a class="anchor" href="#truesconti-e-maggiornazioni-a-livello-di-testata"></a>Sconti e maggiorazioni a livello di testata</h4>
 <div class="paragraph">
 <p>Questo esempio mostra una maggiorazione relative ai costi di imballaggio:</p>
 </div>
@@ -3024,7 +3101,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect3">
-<h4 id="truesconti-e-maggiorazioni-sul-prezzo"><a class="anchor" href="#truesconti-e-maggiorazioni-sul-prezzo"></a>9.11.3. Sconti e maggiorazioni sul prezzo</h4>
+<h4 id="truesconti-e-maggiorazioni-sul-prezzo"><a class="anchor" href="#truesconti-e-maggiorazioni-sul-prezzo"></a>Sconti e maggiorazioni sul prezzo</h4>
 <div class="paragraph">
 <p>Questo esempio mostra uno sconto di 10 EUR sul prezzo base:</p>
 </div>
@@ -3043,7 +3120,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect3">
-<h4 id="truesconti-e-maggiorazioni-a-livello-di-riga"><a class="anchor" href="#truesconti-e-maggiorazioni-a-livello-di-riga"></a>9.11.4. Sconti e maggiorazioni a livello di riga</h4>
+<h4 id="truesconti-e-maggiorazioni-a-livello-di-riga"><a class="anchor" href="#truesconti-e-maggiorazioni-a-livello-di-riga"></a>Sconti e maggiorazioni a livello di riga</h4>
 <div class="paragraph">
 <p>Questo esempio mostra uno sconto applicato a tutta la riga d’ordine, dove 1&#8217;articolo è gratuito a titolo di sconto:</p>
 </div>
@@ -3070,7 +3147,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect3">
-<h4 id="truesconto-merce"><a class="anchor" href="#truesconto-merce"></a>9.11.5. Sconto Merce</h4>
+<h4 id="truesconto-merce"><a class="anchor" href="#truesconto-merce"></a>Sconto Merce</h4>
 <div class="paragraph">
 <p>Per cessioni a titolo di sconto, premio o abbuono si inserisce una riga d’ordine separata prestando attenzione ad indicarne la relativa esenzione IVA.</p>
 </div>
@@ -3106,9 +3183,9 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect2">
-<h3 id="truegestione-ordini-particolari"><a class="anchor" href="#truegestione-ordini-particolari"></a>9.12. Gestione Ordini particolari</h3>
+<h3 id="truegestione-ordini-particolari"><a class="anchor" href="#truegestione-ordini-particolari"></a>Gestione Ordini particolari</h3>
 <div class="sect3">
-<h4 id="trueordini-in-conto-visione-e-ordini-di-fatturazione-e-reintegro"><a class="anchor" href="#trueordini-in-conto-visione-e-ordini-di-fatturazione-e-reintegro"></a>9.12.1. Ordini in Conto Visione e Ordini di fatturazione e reintegro</h4>
+<h4 id="trueordini-in-conto-visione-e-ordini-di-fatturazione-e-reintegro"><a class="anchor" href="#trueordini-in-conto-visione-e-ordini-di-fatturazione-e-reintegro"></a>Ordini in Conto Visione e Ordini di fatturazione e reintegro</h4>
 <div class="paragraph">
 <p>Gli ordini con tipologia 227 di beni in conto visione (CV) e gli ordini con tipologia 220 di fatturazione e reintegro (OFR) prevedono che l’emissione dell’ordine avvenga successivamente alla consegna e all’utilizzo dei beni forniti. Pertanto, in questi ordini è obbligatorio specificare i riferimenti relativi al Lotto, Numero Seriale e Numero DDT di consegna dell’articolo utilizzato.</p>
 </div>
@@ -3133,7 +3210,7 @@ Ogni ordine DEVE avere un identificatore per l’articolo e/o la sua denominazio
 </div>
 </div>
 <div class="sect3">
-<h4 id="trueordini-di-kit-a-componenti-predefinite-e-a-componenti-variabili-virtuali"><a class="anchor" href="#trueordini-di-kit-a-componenti-predefinite-e-a-componenti-variabili-virtuali"></a>9.12.2. Ordini di Kit a componenti predefinite e a componenti variabili (virtuali)</h4>
+<h4 id="trueordini-di-kit-a-componenti-predefinite-e-a-componenti-variabili-virtuali"><a class="anchor" href="#trueordini-di-kit-a-componenti-predefinite-e-a-componenti-variabili-virtuali"></a>Ordini di Kit a componenti predefinite e a componenti variabili (virtuali)</h4>
 <div class="paragraph">
 <p>I componenti di un Kit (generalmente si tratta di dispositivi sanitari impiantabili) possono essere predefiniti (definiti a listino dal fornitore e sempre utilizzati congiuntamente) o variabili (nel listino del fornitore vengono indicati i possibili componenti richiedibili).
 Solitamente esiste un codice articolo del kit e un codice articolo per ciascun componente del kit.</p>
@@ -3237,7 +3314,7 @@ Riferimento al KIT di appartenenza usando un AdditionalItemProperty (non obbliga
 </div>
 </div>
 <div class="sect3">
-<h4 id="truecalcolo-dellimporto-scontimaggiorazioni"><a class="anchor" href="#truecalcolo-dellimporto-scontimaggiorazioni"></a>9.12.3. Calcolo dell&#8217;importo sconti/maggiorazioni</h4>
+<h4 id="truecalcolo-dellimporto-scontimaggiorazioni"><a class="anchor" href="#truecalcolo-dellimporto-scontimaggiorazioni"></a>Calcolo dell&#8217;importo sconti/maggiorazioni</h4>
 <div class="paragraph">
 <p>Sconti e maggiorazioni a livello di testata sono costituiti da elementi contenenti informazioni sull&#8217;importo base di sconti/maggiorazioni e sulla percentuale di sconti/maggiorazioni. Questi, se presenti in fattura, sono utilizzati per calcolare l&#8217;importo di sconti/maggiorazioni.</p>
 </div>
@@ -3324,7 +3401,7 @@ Riferimento al KIT di appartenenza usando un AdditionalItemProperty (non obbliga
 </div>
 </div>
 <div class="sect2">
-<h3 id="truecalcolo-dei-totali-anticipatedmonetarytotals"><a class="anchor" href="#truecalcolo-dei-totali-anticipatedmonetarytotals"></a>9.13. Calcolo dei totali (AnticipatedMonetaryTotals)</h3>
+<h3 id="truecalcolo-dei-totali-anticipatedmonetarytotals"><a class="anchor" href="#truecalcolo-dei-totali-anticipatedmonetarytotals"></a>Calcolo dei totali (AnticipatedMonetaryTotals)</h3>
 <div class="paragraph">
 <p>I seguenti elementi mostrano gli importi totali anticipati con l’ordine:</p>
 </div>
@@ -3392,7 +3469,7 @@ Riferimento al KIT di appartenenza usando un AdditionalItemProperty (non obbliga
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-E’ importante notare che la classe AnticipatedMonetaryTotals è opzionale.  Se la classe viene inclusa nel messaggio, gli unici elementi obbligatori sono LineExtensionAmount e PayableAmount.  Tutti gli altri sono opzionali.  Quando gli elementi opzionali vengono usati, il loro contenuto DEVE seguire le regole sotto riportate.
+E’ importante notare che la classe AnticipatedMonetaryTotals è opzionale. Se la classe viene inclusa nel messaggio, gli unici elementi obbligatori sono LineExtensionAmount e PayableAmount.  Tutti gli altri sono opzionali.  Quando gli elementi opzionali vengono usati, il loro contenuto DEVE seguire le regole sotto riportate.
 </td>
 </tr>
 </table>
@@ -3441,7 +3518,7 @@ E’ importante notare che la classe AnticipatedMonetaryTotals è opzionale.  Se
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="trueesempio-di-calcolo"><a class="anchor" href="#trueesempio-di-calcolo"></a>9.13.1. Esempio di calcolo</h4>
+<h4 id="trueesempio-di-calcolo"><a class="anchor" href="#trueesempio-di-calcolo"></a>Esempio di calcolo</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../../frontend/images/IMG_PEPPOL/fig5.jpg" alt="fig5">
@@ -3466,7 +3543,7 @@ E’ importante notare che la classe AnticipatedMonetaryTotals è opzionale.  Se
 </div>
 </div>
 <div class="sect3">
-<h4 id="truelelemento-per-gli-arrotondamenti-il-payableroundingamount"><a class="anchor" href="#truelelemento-per-gli-arrotondamenti-il-payableroundingamount"></a>9.13.2. L’elemento per gli arrotondamenti, il PayableRoundingAmount</h4>
+<h4 id="truelelemento-per-gli-arrotondamenti-il-payableroundingamount"><a class="anchor" href="#truelelemento-per-gli-arrotondamenti-il-payableroundingamount"></a>L’elemento per gli arrotondamenti, il PayableRoundingAmount</h4>
 <div class="paragraph">
 <p>E’ possibile arrotondare l’importo dovuto previsto. La regola per attuarlo è quella di arrotondamento standard, es. Maggiore o uguale a 0.5 viene arrotondato per eccesso, tutti gli altri valori vengono arrotondati per difetto.</p>
 </div>
@@ -3480,7 +3557,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect2">
-<h3 id="truetotale-imposte"><a class="anchor" href="#truetotale-imposte"></a>9.14. Totale imposte</h3>
+<h3 id="truetotale-imposte"><a class="anchor" href="#truetotale-imposte"></a>Totale imposte</h3>
 <div class="paragraph">
 <p>E’ possibile fornire il totale delle imposte dell’ordine a livello di testata.</p>
 </div>
@@ -3494,7 +3571,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueconsegna-delivery"><a class="anchor" href="#trueconsegna-delivery"></a>9.15. Consegna (Delivery)</h3>
+<h3 id="trueconsegna-delivery"><a class="anchor" href="#trueconsegna-delivery"></a>Consegna (Delivery)</h3>
 <div class="paragraph">
 <p>Le informazioni di consegna sono necessarie qualora l’indirizzo differisca da quello della parte che emette l’ordine e permette di fornire indicazioni più precise sulla resa della merce (DeliveryTerms). Si ricorda che l&#8217;orario di apertura del magazzino dovranno essere inserite nel campo AddressLine/Line del segmento Address.</p>
 </div>
@@ -3536,7 +3613,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect3">
-<h4 id="trueperiodo-di-consegna-per-riga-dordine"><a class="anchor" href="#trueperiodo-di-consegna-per-riga-dordine"></a>9.15.1. Periodo di Consegna per riga d’ordine</h4>
+<h4 id="trueperiodo-di-consegna-per-riga-dordine"><a class="anchor" href="#trueperiodo-di-consegna-per-riga-dordine"></a>Periodo di Consegna per riga d’ordine</h4>
 <div class="paragraph">
 <p>Per la gestione di ordini frazionati il periodo di consegna richiesto può essere indicato su ogni riga d’ordine utilizzando le informazioni di delivery in modo simile a quelle in testata ordine.</p>
 </div>
@@ -3559,7 +3636,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueconfezionamento"><a class="anchor" href="#trueconfezionamento"></a>9.16. Confezionamento</h3>
+<h3 id="trueconfezionamento"><a class="anchor" href="#trueconfezionamento"></a>Confezionamento</h3>
 <div class="paragraph">
 <p>Per fornire informazioni sul confezionamento è possibile usare due diverse modalità a seconda di come viene effettuato l’ordine, e quindi se l’articolo corrisponde alla singola unità "C62" o alla confezione "XPK". Se l’articolo ordinato è una confezione è importante indicarne l’unità di misura corretta. Nella tabella seguente si fornisce la metodologia per aggiungere informazioni sulle singole unità all’interno della confezione e viceversa, quando l’articolo coincide con l’unità base, per fornire informazioni sul confezionamento.</p>
 </div>
@@ -3607,7 +3684,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 <p>Seguono due esempi significativi.</p>
 </div>
 <div class="sect3">
-<h4 id="truecaso-1-articolo-ordinato-per-singola-unità"><a class="anchor" href="#truecaso-1-articolo-ordinato-per-singola-unità"></a>9.16.1. Caso 1: Articolo ordinato per singola unità</h4>
+<h4 id="truecaso-1-articolo-ordinato-per-singola-unità"><a class="anchor" href="#truecaso-1-articolo-ordinato-per-singola-unità"></a>Caso 1: Articolo ordinato per singola unità</h4>
 <div class="paragraph">
 <p>Esempio in cui l’articolo viene ordinato per singola unità e non a confezione, ed indicazione del numero di pezzi per confezione primaria:</p>
 </div>
@@ -3641,7 +3718,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect3">
-<h4 id="truecaso-2-articolo-ordinato-a-confezione"><a class="anchor" href="#truecaso-2-articolo-ordinato-a-confezione"></a>9.16.2. Caso 2: Articolo ordinato a confezione</h4>
+<h4 id="truecaso-2-articolo-ordinato-a-confezione"><a class="anchor" href="#truecaso-2-articolo-ordinato-a-confezione"></a>Caso 2: Articolo ordinato a confezione</h4>
 <div class="paragraph">
 <p>Esempio in cui l’articolo viene ordinato a confezione:</p>
 </div>
@@ -3676,7 +3753,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect2">
-<h3 id="truecategoria-iva-su-riga"><a class="anchor" href="#truecategoria-iva-su-riga"></a>9.17. Categoria IVA su riga</h3>
+<h3 id="truecategoria-iva-su-riga"><a class="anchor" href="#truecategoria-iva-su-riga"></a>Categoria IVA su riga</h3>
 <div class="paragraph">
 <p>Le informazioni sull’IVA a livello di riga sono fornite dalla classe cac:ClassifiedTaxCategory.</p>
 </div>
@@ -3715,7 +3792,7 @@ Questo valore deve essere aggiunto al valore indicato in AnticipatedMonetaryTota
 </div>
 </div>
 <div class="sect2">
-<h3 id="trueuso-degli-elementi-note"><a class="anchor" href="#trueuso-degli-elementi-note"></a>9.18. Uso degli elementi "Note"</h3>
+<h3 id="trueuso-degli-elementi-note"><a class="anchor" href="#trueuso-degli-elementi-note"></a>Uso degli elementi "Note"</h3>
 <div class="paragraph">
 <p>Eccezionalmente, ove vi sia l’esigenza di fornire indicazioni particolari, è possibile valorizzare con testo libero gli elementi “Note” presenti a vari livelli degli schemi dati dei Documenti.
 In particolare, con riferimento al campo “Note” dell’elemento “PaymentTerms”, si raccomanda di indicare il numero di giorni dall’emissione della fattura. In assenza di indicazioni si intendono i termini massimi stabiliti dalla normativa vigente.</p>
