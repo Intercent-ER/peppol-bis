@@ -1242,7 +1242,7 @@
                      <td><a href="#">PEPPOL-T01-CL002</a><br><span class="message">Reason code MUST be according to UNCL 7161 D.16B.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
-                  <tr id="INT-T01-R026" data-context="//cbc:EndpointID" data-test="((@schemeID='9921' or @schemeID='0201') and matches(.,'^[a-zA-Z0-9]{6,8}$')) or (@schemeID!='9921' and @schemeID!='0201')">
+                  <tr id="INT-T01-R026" data-context="//cbc:EndpointID" data-test="((@schemeID='9921' or @schemeID='0201') and matches(.,'^[A-Z0-9]{6,8}$')) or (@schemeID!='9921' and @schemeID!='0201')">
                      <td><a href="#">INT-T01-R026</a><br><span class="message">[INT-T01-R026] - Se l'identificatore di endpoint si basa sullo schema di identificatori IT:IPA (ICD: 0201 ex 9921), questo
                            dovr&agrave; seguire la sintassi [A-Z0-9]{6,8}.</span></td>
                      <td style="width: 5%;">fatal</td>
@@ -1287,15 +1287,14 @@
                            del Buyer. Nel caso di Buyer di tipo PA deve riportare lo schema IPA.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
-                  <tr id="INT-T01-R033" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="cac:PartyIdentification/cbc:ID[@schemeID='9921' or @schemeID='0201'][string-length(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789','')) = 0 and string-length() = 6] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201']">
+                  <tr id="INT-T01-R033" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="cac:PartyIdentification/cbc:ID[@schemeID='9921' or @schemeID='0201'][matches(.,'^[A-Z0-9]{6}$')] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201'][string-length() = 6]">
                      <td><a href="#">INT-T01-R033</a><br><span class="message">INT-T01-R033 - Un ordine DEVE contenere Il codice UFE IPA dell'ufficio della PA che lo ha emesso, composto da 6 caratteri
                            ASCII alfanumerici maiuscoli.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
-                  <tr id="INT-T01-R036" data-context="//cac:SellerSupplierParty/cac:Party" data-test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cac:PartyIdentification/cbc:ID[(@schemeID='9921' or @schemeID='0201') and string-length(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789','')) = 0 and string-length() = 8] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201' or @schemeID='9906' or @schemeID='9907'])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'">
-                     <td><a href="#">INT-T01-R036</a><br><span class="message">INT-T01-R036 - Un ordine DEVE indicare Il codice destinatario (CODDEST) del fornitore italiano nel PartyIdentification/ID,
-                           composto da 8 caratteri ASCII alfanumerici maiuscoli. Per un periodo di transizione sar&agrave; sufficiente fornire la P.IVA, il
-                           C.F. o l'IPA nell'EndpointID.</span></td>
+                  <tr id="INT-T01-R036" data-context="//cac:SellerSupplierParty/cac:Party" data-test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[@schemeID='9921' or @schemeID='0201' or @schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'">
+                     <td><a href="#">INT-T01-R036</a><br><span class="message">INT-T01-R036 - Un ordine DEVE riportare nell&#8217;EndpointID del fornitore italiano: il Participant ID PEPPOL oppure il codice
+                           destinatario (CODDEST) composto da 8 caratteri ASCII alfanumerici maiuscoli oppure la PEC.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
                   <tr id="INT-T01-R001" data-context="//cbc:*" data-test="normalize-space()">
