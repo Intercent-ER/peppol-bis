@@ -1242,7 +1242,21 @@
                      <td><a href="#">PEPPOL-T01-CL002</a><br><span class="message">Reason code MUST be according to UNCL 7161 D.16B.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
-                  <tr id="INT-T01-R026" data-context="//cbc:EndpointID" data-test="((@schemeID='9921' or @schemeID='0201') and matches(.,'^[A-Z0-9]{6,8}$')) or (@schemeID!='9921' and @schemeID!='0201')">
+				  <tr id="INT-T01-R001" data-context="//cbc:*" data-test="normalize-space()">
+                     <td><a href="#">INT-T01-R001</a><br><span class="message">[INT-T01-R001] - Un elemento informativo base, se istanziato, non pu&ograve; essere vuoto.</span></td>
+                     <td style="width: 5%;">fatal</td>
+                  </tr>
+				  <tr id="INT-T01-R002" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="cac:PartyName/cbc:Name and cac:PostalAddress/cac:Country/cbc:IdentificationCode and cac:PartyTaxScheme/cbc:CompanyID">
+                     <td><a href="#">INT-T01-R002</a><br><span class="message">[INT-T01-R002] - L'ordine DEVE contenere il nome, il paese e l'identificativo fiscale della parte ordinane (Acquirente).</span></td>
+                     <td style="width: 5%;">fatal</td>
+                  </tr>
+                  <tr id="INT-T01-R004" data-context="//cac:OrderLine/cac:LineItem" data-test="(not(cac:Price/cbc:PriceAmount) or not(cbc:LineExtensionAmount)) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity) * 100) div 100)">
+                     <td><a href="#">INT-T01-R004</a><br><span class="message">[INT-T01-R004] - Se il prezzo e il totale riga d'ordine sono presenti, il totale riga DEVE essere ottenuto moltiplicando il
+                           prezzo per la quantit&agrave; diviso la quantit&agrave; base a cui si riferisce il prezzo e includendo l'eventuale sconto o maggiorazione
+                           indicati.</span></td>
+                     <td style="width: 5%;">fatal</td>
+                  </tr>
+				  <tr id="INT-T01-R026" data-context="//cbc:EndpointID" data-test="((@schemeID='9921' or @schemeID='0201') and matches(.,'^[A-Z0-9]{6,8}$')) or (@schemeID!='9921' and @schemeID!='0201')">
                      <td><a href="#">INT-T01-R026</a><br><span class="message">[INT-T01-R026] - Se l'identificatore di endpoint si basa sullo schema di identificatori IT:IPA (ICD: 0201 ex 9921), questo
                            dovr&agrave; seguire la sintassi [A-Z0-9]{6,8}.</span></td>
                      <td style="width: 5%;">fatal</td>
@@ -1258,14 +1272,18 @@
                            quelle fisiche.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
-                  <tr id="INT-T01-R004" data-context="//cac:OrderLine/cac:LineItem" data-test="(not(cac:Price/cbc:PriceAmount) or not(cbc:LineExtensionAmount)) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity) * 100) div 100)">
-                     <td><a href="#">INT-T01-R004</a><br><span class="message">[INT-T01-R004] - Se il prezzo e il totale riga d'ordine sono presenti, il totale riga DEVE essere ottenuto moltiplicando il
-                           prezzo per la quantit&agrave; diviso la quantit&agrave; base a cui si riferisce il prezzo e includendo l'eventuale sconto o maggiorazione
-                           indicati.</span></td>
-                     <td style="width: 5%;">fatal</td>
-                  </tr>
                   <tr id="INT-T01-R029" data-context="/ubl:Order" data-test="cac:OriginatorDocumentReference/cbc:ID or cac:OrderLine/cac:LineItem/cac:Item/cac:ItemSpecificationDocumentReference[not(contains(cbc:ID, ':'))] or cac:OrderLine/cac:LineItem/cac:Item/cac:ItemSpecificationDocumentReference[starts-with(cbc:ID, 'CIG:')]">
                      <td><a href="#">INT-T01-R029</a><br><span class="message">[INT-T01-R029] - Il Codice Identificativo Gara (CIG) DEVE essere sempre indicato in testata all'Ordine o a livello di riga.</span></td>
+                     <td style="width: 5%;">fatal</td>
+                  </tr>
+				  <tr id="INT-T01-R032" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="not(cac:PartyIdentification/cbc:ID) or cac:PartyIdentification/cbc:ID/@schemeID='9921' or cac:PartyIdentification/cbc:ID/@schemeID='0201'">
+                     <td><a href="#">INT-T01-R032</a><br><span class="message">INT-T01-R032 - Un ordine deve riportare obbligatoriamente un solo identificatore della parte di business (party identification)
+                           del Buyer. Nel caso di Buyer di tipo PA deve riportare lo schema IPA.</span></td>
+                     <td style="width: 5%;">fatal</td>
+                  </tr>
+                  <tr id="INT-T01-R033" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="cac:PartyIdentification/cbc:ID[@schemeID='9921' or @schemeID='0201'][matches(.,'^[A-Z0-9]{6}$')] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201'][string-length() = 6]">
+                     <td><a href="#">INT-T01-R033</a><br><span class="message">INT-T01-R033 - Un ordine DEVE contenere Il codice UFE IPA dell'ufficio della PA che lo ha emesso, composto da 6 caratteri
+                           ASCII alfanumerici maiuscoli.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
                   <tr id="INT-T01-R034" data-context="/ubl:Order" data-test="not(cac:OrderDocumentReference) or count(cac:OrderDocumentReference)!=count(cac:OrderDocumentReference[cbc:DocumentStatusCode='Cancelled']) or (count(cac:OrderLine)=1 and cac:OrderLine/cac:LineItem/cbc:ID='NA' and cac:OrderLine/cac:LineItem/cac:Item/cbc:Name='NA' and cac:OrderLine/cac:LineItem/cbc:Quantity=0 and not(cac:TaxTotal) and not(cac:AnticipatedMonetaryTotal))">
@@ -1278,29 +1296,11 @@
                            fornire una o pi&ugrave; righe d'ordine con identificativo diverso da 'NA'.</span></td>
                      <td style="width: 5%;">fatal</td>
                   </tr>
-                  <tr id="INT-T01-R002" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="cac:PartyName/cbc:Name and cac:PostalAddress/cac:Country/cbc:IdentificationCode and cac:PartyTaxScheme/cbc:CompanyID">
-                     <td><a href="#">INT-T01-R002</a><br><span class="message">[INT-T01-R002] - L'ordine DEVE contenere il nome, il paese e l'identificativo fiscale della parte ordinane (Acquirente).</span></td>
-                     <td style="width: 5%;">fatal</td>
-                  </tr>
-                  <tr id="INT-T01-R032" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="not(cac:PartyIdentification/cbc:ID) or cac:PartyIdentification/cbc:ID/@schemeID='9921' or cac:PartyIdentification/cbc:ID/@schemeID='0201'">
-                     <td><a href="#">INT-T01-R032</a><br><span class="message">INT-T01-R032 - Un ordine deve riportare obbligatoriamente un solo identificatore della parte di business (party identification)
-                           del Buyer. Nel caso di Buyer di tipo PA deve riportare lo schema IPA.</span></td>
-                     <td style="width: 5%;">fatal</td>
-                  </tr>
-                  <tr id="INT-T01-R033" data-context="//cac:BuyerCustomerParty/cac:Party" data-test="cac:PartyIdentification/cbc:ID[@schemeID='9921' or @schemeID='0201'][matches(.,'^[A-Z0-9]{6}$')] or cbc:EndpointID[@schemeID='9921' or @schemeID='0201'][string-length() = 6]">
-                     <td><a href="#">INT-T01-R033</a><br><span class="message">INT-T01-R033 - Un ordine DEVE contenere Il codice UFE IPA dell'ufficio della PA che lo ha emesso, composto da 6 caratteri
-                           ASCII alfanumerici maiuscoli.</span></td>
-                     <td style="width: 5%;">fatal</td>
-                  </tr>
                   <tr id="INT-T01-R036" data-context="//cac:SellerSupplierParty/cac:Party" data-test="(cac:PostalAddress/cac:Country/cbc:IdentificationCode = 'IT' and (cbc:EndpointID[@schemeID='9921' or @schemeID='0201' or @schemeID='9906' or @schemeID='9907'] or cbc:EndpointID[@schemeID='0202' and matches(.,'.+@.+[.]+.+')])) or cac:PostalAddress/cac:Country/cbc:IdentificationCode != 'IT'">
                      <td><a href="#">INT-T01-R036</a><br><span class="message">INT-T01-R036 - Un ordine DEVE riportare nell&#8217;EndpointID del fornitore italiano: il Participant ID PEPPOL oppure il codice
                            destinatario (CODDEST) composto da 8 caratteri ASCII alfanumerici maiuscoli oppure la PEC.</span></td>
                      <td style="width: 5%;">fatal</td>
-                  </tr>
-                  <tr id="INT-T01-R001" data-context="//cbc:*" data-test="normalize-space()">
-                     <td><a href="#">INT-T01-R001</a><br><span class="message">[INT-T01-R001] - Un elemento informativo base, se istanziato, non pu&ograve; essere vuoto.</span></td>
-                     <td style="width: 5%;">fatal</td>
-                  </tr>
+                  </tr>                 
                   <tr id="INT-T01-R037a" data-context="/*/cac:OriginatorDocumentReference/cbc:ID | /*/cac:OrderLine/cac:LineItem/cac:Item/cac:ItemSpecificationDocumentReference/cbc:ID[starts-with(., 'CIG:')]" data-test="matches($CIG, 'ES[0-2][0-9]') or matches(substring($CIG,1,1), '[XYZ]') or not( matches(substring($CIG,1,7), '0000000') )">
                      <td><a href="#">INT-T01-R037a</a><br><span class="message">INT-T01-R037(a) - E' stato fornito un codice CIG invalido (NNNNNNN errato).
                            		</span></td>
