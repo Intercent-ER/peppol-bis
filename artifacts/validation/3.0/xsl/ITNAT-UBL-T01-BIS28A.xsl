@@ -7420,7 +7420,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="//cbc:EndpointID" priority="1005" mode="M16">
+   <axsl:template match="//cbc:EndpointID" priority="1004" mode="M16">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="//cbc:EndpointID"/>
 
 		<!--ASSERT -->
@@ -7467,29 +7467,6 @@
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
                <svrl:text>[INT-T01-R028] - Se l'identificatore di endpoint si basa sullo schema di identificatori IT:CF (ICD: 9907), questo dovrà seguire la sintassi [0-9]{11} per le persone giuridiche e la sintassi [A-Z]{6}\d{2}[ABCDEHLMPRST]{1}\d{2}[A-Z]{1}\d{3}[A-Z]{1} per quelle fisiche.</svrl:text>
-            </svrl:failed-assert>
-         </axsl:otherwise>
-      </axsl:choose>
-      <axsl:apply-templates select="@*|*" mode="M16"/>
-   </axsl:template>
-
-	<!--RULE -->
-
-   <axsl:template match="//cac:OrderLine/cac:LineItem" priority="1004" mode="M16">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="//cac:OrderLine/cac:LineItem"/>
-
-		<!--ASSERT -->
-
-      <axsl:choose>
-         <axsl:when test="(not(cac:Price/cbc:PriceAmount) or not(cbc:LineExtensionAmount)) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity) * 100) div 100)"/>
-         <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(not(cac:Price/cbc:PriceAmount) or not(cbc:LineExtensionAmount)) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and not(cac:Price/cbc:BaseQuantity) and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='false']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) - xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and cac:AllowanceCharge[cbc:ChargeIndicator='true']/cbc:Amount and xs:decimal(cbc:LineExtensionAmount) = round(((xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity)) + xs:decimal(cac:AllowanceCharge/cbc:Amount)) * 100) div 100) or (cac:Price/cbc:PriceAmount and cac:Price/cbc:BaseQuantity and cbc:LineExtensionAmount and not(cac:AllowanceCharge/cbc:Amount) and xs:decimal(cbc:LineExtensionAmount) = round(xs:decimal(cac:Price/cbc:PriceAmount) * xs:decimal(cbc:Quantity) div xs:decimal(cac:Price/cbc:BaseQuantity) * 100) div 100)">
-               <axsl:attribute name="id">INT-T01-R004</axsl:attribute>
-               <axsl:attribute name="flag">fatal</axsl:attribute>
-               <axsl:attribute name="location">
-                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
-               </axsl:attribute>
-               <svrl:text>[INT-T01-R004] - Se il prezzo e il totale riga d'ordine sono presenti, il totale riga DEVE essere ottenuto moltiplicando il prezzo per la quantità diviso la quantità base a cui si riferisce il prezzo e includendo l'eventuale sconto o maggiorazione indicati.</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
