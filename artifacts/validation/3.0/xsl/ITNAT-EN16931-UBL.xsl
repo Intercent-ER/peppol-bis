@@ -16052,9 +16052,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )"/>
+         <axsl:when test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE B L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE B L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )">
                <axsl:attribute name="id">BR-CL-17</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -16075,9 +16075,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )"/>
+         <axsl:when test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE B L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="( ( not(contains(normalize-space(.),' ')) and contains( ' AE B L M E S Z G O K ',concat(' ',normalize-space(.),' ') ) ) )">
                <axsl:attribute name="id">BR-CL-18</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -17575,7 +17575,7 @@
    <axsl:variable name="UNCL2005" select="tokenize('3 35 432', '\s')"/>
    <axsl:variable name="UNCL5189" select="tokenize('41 42 60 62 63 64 65 66 67 68 70 71 88 95 100 102 103 104 105', '\s')"/>
    <axsl:variable name="UNCL7161" select="tokenize('AA AAA AAC AAD AAE AAF AAH AAI AAS AAT AAV AAY AAZ ABA ABB ABC ABD ABF ABK ABL ABN ABR ABS ABT ABU ACF ACG ACH ACI ACJ ACK ACL ACM ACS ADC ADE ADJ ADK ADL ADM ADN ADO ADP ADQ ADR ADT ADW ADY ADZ AEA AEB AEC AED AEF AEH AEI AEJ AEK AEL AEM AEN AEO AEP AES AET AEU AEV AEW AEX AEY AEZ AJ AU CA CAB CAD CAE CAF CAI CAJ CAK CAL CAM CAN CAO CAP CAQ CAR CAS CAT CAU CAV CAW CD CG CS CT DAB DAD DL EG EP ER FAA FAB FAC FC FH FI GAA HAA HD HH IAA IAB ID IF IR IS KO L1 LA LAA LAB LF MAE MI ML NAA OA PA PAA PC PL RAB RAC RAD RAF RE RF RH RV SA SAA SAD SAE SAI SG SH SM SU TAB TAC TT TV V1 V2 WH XAA YY ZZZ', '\s')"/>
-   <axsl:variable name="UNCL5305" select="tokenize('AE E S Z G O K L M', '\s')"/>
+   <axsl:variable name="UNCL5305" select="tokenize('AE B E S Z G O K L M', '\s')"/>
    <axsl:variable name="eaid" select="tokenize('0002 0007 0009 0037 0060 0088 0096 0097 0106 0135 0142 0151 0183 0184 0190 0191 0192 0193 0195 0196 0198 0199 0200 0201 0202 9901 9902 9904 9905 9906 9907 9910 9913 9914 9915 9917 9918 9919 9920 9921 9922 9923 9924 9925 9926 9927 9928 9929 9930 9931 9932 9933 9934 9935 9936 9937 9938 9939 9940 9941 9942 9943 9944 9945 9946 9947 9948 9949 9950 9951 9952 9953 9955 9956 9957 9958', '\s')"/>
 
 	<!--RULE -->
@@ -17818,7 +17818,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cbc:ID" priority="1040" mode="M38">
+   <axsl:template match="/*/cbc:ID" priority="1044" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17841,7 +17841,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:ProjectReference/cbc:ID" priority="1039" mode="M38">
+   <axsl:template match="/*/cac:ProjectReference/cbc:ID" priority="1043" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:ProjectReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17864,7 +17864,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:ContractDocumentReference/cbc:ID" priority="1038" mode="M38">
+   <axsl:template match="/*/cac:ContractDocumentReference/cbc:ID" priority="1042" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:ContractDocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17887,7 +17887,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:OrderReference/cbc:ID" priority="1037" mode="M38">
+   <axsl:template match="/*/cac:OrderReference/cbc:ID" priority="1041" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:OrderReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17910,7 +17910,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:ReceiptDocumentReference/cbc:ID" priority="1036" mode="M38">
+   <axsl:template match="/*/cac:ReceiptDocumentReference/cbc:ID" priority="1040" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:ReceiptDocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17933,7 +17933,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:DespatchDocumentReference/cbc:ID" priority="1035" mode="M38">
+   <axsl:template match="/*/cac:DespatchDocumentReference/cbc:ID" priority="1039" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:DespatchDocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17956,7 +17956,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:OriginatorDocumentReference/cbc:ID" priority="1034" mode="M38">
+   <axsl:template match="/*/cac:OriginatorDocumentReference/cbc:ID" priority="1038" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:OriginatorDocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -17979,7 +17979,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cbc:AccountingCost" priority="1033" mode="M38">
+   <axsl:template match="/*/cbc:AccountingCost" priority="1037" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cbc:AccountingCost"/>
 
 		<!--ASSERT -->
@@ -18002,7 +18002,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:BillingReference/cac:InvoiceDocumentReference/cbc:ID" priority="1032" mode="M38">
+   <axsl:template match="/*/cac:BillingReference/cac:InvoiceDocumentReference/cbc:ID" priority="1036" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:BillingReference/cac:InvoiceDocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18025,15 +18025,15 @@
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyIdentification/cbc:ID, 'IT:EORI:')]" priority="1031" mode="M38">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyIdentification/cbc:ID, 'IT:EORI:')]"/>
+   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:EORI:')) then 1 else 0) &gt; 0]" priority="1035" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:EORI:')) then 1 else 0) &gt; 0]"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="matches(cac:PartyIdentification/cbc:ID,'^IT:EORI:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 21 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 25"/>
+         <axsl:when test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:EORI:[A-Z0-9]+$') and string-length($i) &gt;= 21 and string-length($i) &lt;= 25) then 1 else 0) &gt; 0"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="matches(cac:PartyIdentification/cbc:ID,'^IT:EORI:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 21 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 25">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:EORI:[A-Z0-9]+$') and string-length($i) &gt;= 21 and string-length($i) &lt;= 25) then 1 else 0) &gt; 0">
                <axsl:attribute name="id">BR-IT-100</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -18049,15 +18049,15 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyIdentification/cbc:ID, 'IT:ALBO:')]" priority="1030" mode="M38">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyIdentification/cbc:ID, 'IT:ALBO:')]"/>
+   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:ALBO:')) then 1 else 0) &gt; 0]" priority="1034" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:ALBO:')) then 1 else 0) &gt; 0]"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="matches(cac:PartyIdentification/cbc:ID,'^IT:ALBO:[a-zA-Z]+:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 1 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 129"/>
+         <axsl:when test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:ALBO:[a-zA-Z]+:[A-Z0-9]+$') and string-length($i) &gt;= 1 and string-length($i) &lt;= 129) then 1 else 0) &gt; 0"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="matches(cac:PartyIdentification/cbc:ID,'^IT:ALBO:[a-zA-Z]+:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 1 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 129">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:ALBO:[a-zA-Z]+:[A-Z0-9]+$') and string-length($i) &gt;= 1 and string-length($i) &lt;= 129) then 1 else 0) &gt; 0">
                <axsl:attribute name="id">BR-IT-100</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -18073,15 +18073,15 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyLegalEntity/cbc:CompanyID, 'IT:REA:')]" priority="1029" mode="M38">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyLegalEntity/cbc:CompanyID, 'IT:REA:')]"/>
+   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:REA:')) then 1 else 0) &gt; 0]" priority="1033" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:REA:')) then 1 else 0) &gt; 0]"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="matches(cac:PartyIdentification/cbc:ID,'^IT:REA:[a-zA-Z0-9]+:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 10 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 30"/>
+         <axsl:when test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:REA:[a-zA-Z0-9]+:[A-Z0-9]+$') and string-length($i) &gt;= 10 and string-length($i) &lt;= 30) then 1 else 0) &gt; 0"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="matches(cac:PartyIdentification/cbc:ID,'^IT:REA:[a-zA-Z0-9]+:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 10 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 30">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:REA:[a-zA-Z0-9]+:[A-Z0-9]+$') and string-length($i) &gt;= 10 and string-length($i) &lt;= 30) then 1 else 0) &gt; 0">
                <axsl:attribute name="id">BR-IT-110</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -18096,7 +18096,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" priority="1028" mode="M38">
+   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" priority="1032" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/>
 
 		<!--ASSERT -->
@@ -18119,7 +18119,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT']" priority="1027" mode="M38">
+   <axsl:template match="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT']" priority="1031" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT']"/>
 
 		<!--ASSERT -->
@@ -18158,7 +18158,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party" priority="1026" mode="M38">
+   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party" priority="1030" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingCustomerParty/cac:Party"/>
 
 		<!--ASSERT -->
@@ -18181,7 +18181,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party[starts-with(cac:PartyLegalEntity/cbc:CompanyID, 'IT:EORI:')]" priority="1025" mode="M38">
+   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party[starts-with(cac:PartyLegalEntity/cbc:CompanyID, 'IT:EORI:')]" priority="1029" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingCustomerParty/cac:Party[starts-with(cac:PartyLegalEntity/cbc:CompanyID, 'IT:EORI:')]"/>
 
 		<!--ASSERT -->
@@ -18204,7 +18204,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" priority="1024" mode="M38">
+   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" priority="1028" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/>
 
 		<!--ASSERT -->
@@ -18227,15 +18227,15 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party/cbc:EndpointID" priority="1023" mode="M38">
+   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party/cbc:EndpointID" priority="1027" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingCustomerParty/cac:Party/cbc:EndpointID"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="(@schemeID = '9921' or @schemeID='0201') and (matches(.,'^(IT:IPA:)?[a-zA-Z0-9]{6}$') or matches(.,'^IT:PEC:[a-zA-Z0-9]{7,256}$') or matches(.,'^IT:CODDEST:[a-zA-Z0-9]{7}$'))"/>
+         <axsl:when test="(@schemeID = '9921' or @schemeID='0201') and (matches(.,'^(IT:IPA:)?[a-zA-Z0-9]{6}$') or (matches(.,'^IT:PEC:(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)$') and matches(.,'^.{14,256}$')) or matches(.,'^IT:CODDEST:[a-zA-Z0-9]{7}$'))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(@schemeID = '9921' or @schemeID='0201') and (matches(.,'^(IT:IPA:)?[a-zA-Z0-9]{6}$') or matches(.,'^IT:PEC:[a-zA-Z0-9]{7,256}$') or matches(.,'^IT:CODDEST:[a-zA-Z0-9]{7}$'))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(@schemeID = '9921' or @schemeID='0201') and (matches(.,'^(IT:IPA:)?[a-zA-Z0-9]{6}$') or (matches(.,'^IT:PEC:(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)$') and matches(.,'^.{14,256}$')) or matches(.,'^IT:CODDEST:[a-zA-Z0-9]{7}$'))">
                <axsl:attribute name="id">BR-IT-200</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -18269,7 +18269,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT']" priority="1022" mode="M38">
+   <axsl:template match="/*/cac:AccountingCustomerParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT']" priority="1026" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AccountingCustomerParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT']"/>
 
 		<!--ASSERT -->
@@ -18292,7 +18292,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:TaxRepresentativeParty/cac:PartyTaxScheme/cbc:CompanyID" priority="1021" mode="M38">
+   <axsl:template match="/*/cac:TaxRepresentativeParty/cac:PartyTaxScheme/cbc:CompanyID" priority="1025" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:TaxRepresentativeParty/cac:PartyTaxScheme/cbc:CompanyID"/>
 
 		<!--ASSERT -->
@@ -18315,7 +18315,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:Delivery/cac:DeliveryLocation/cac:Address[cac:Country/cbc:IdentificationCode='IT']" priority="1020" mode="M38">
+   <axsl:template match="/*/cac:Delivery/cac:DeliveryLocation/cac:Address[cac:Country/cbc:IdentificationCode='IT']" priority="1024" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:Delivery/cac:DeliveryLocation/cac:Address[cac:Country/cbc:IdentificationCode='IT']"/>
 
 		<!--ASSERT -->
@@ -18354,7 +18354,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:PaymentMeans" priority="1019" mode="M38">
+   <axsl:template match="/*/cac:PaymentMeans" priority="1023" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:PaymentMeans"/>
 
 		<!--ASSERT -->
@@ -18409,7 +18409,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:AllowanceCharge/cbc:Amount" priority="1018" mode="M38">
+   <axsl:template match="/*/cac:AllowanceCharge/cbc:Amount" priority="1022" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AllowanceCharge/cbc:Amount"/>
 
 		<!--ASSERT -->
@@ -18432,7 +18432,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount" priority="1017" mode="M38">
+   <axsl:template match="/*/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount" priority="1021" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount"/>
 
 		<!--ASSERT -->
@@ -18455,7 +18455,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount" priority="1016" mode="M38">
+   <axsl:template match="/*/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount" priority="1020" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount"/>
 
 		<!--ASSERT -->
@@ -18478,7 +18478,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:LegalMonetaryTotal/cbc:PayableAmount" priority="1015" mode="M38">
+   <axsl:template match="/*/cac:LegalMonetaryTotal/cbc:PayableAmount" priority="1019" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:LegalMonetaryTotal/cbc:PayableAmount"/>
 
 		<!--ASSERT -->
@@ -18501,7 +18501,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount" priority="1014" mode="M38">
+   <axsl:template match="/*/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount" priority="1018" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount"/>
 
 		<!--ASSERT -->
@@ -18524,7 +18524,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxAmount" priority="1013" mode="M38">
+   <axsl:template match="/*/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxAmount" priority="1017" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxAmount"/>
 
 		<!--ASSERT -->
@@ -18547,21 +18547,21 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="//cac:TaxCategory/cbc:ID | //cac:ClassifiedTaxCategory/cbc:ID" priority="1012" mode="M38">
+   <axsl:template match="//cac:TaxCategory/cbc:ID | //cac:ClassifiedTaxCategory/cbc:ID" priority="1016" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="//cac:TaxCategory/cbc:ID | //cac:ClassifiedTaxCategory/cbc:ID"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="contains(' AE E S G K Z H AA O ', concat(' ',normalize-space(.),' '))"/>
+         <axsl:when test="contains(' AE B E S G K Z H AA O ', concat(' ',normalize-space(.),' '))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="contains(' AE E S G K Z H AA O ', concat(' ',normalize-space(.),' '))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="contains(' AE B E S G K Z H AA O ', concat(' ',normalize-space(.),' '))">
                <axsl:attribute name="id">BR-IT-350</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
-               <svrl:text>[BR-IT-350] - For VAT category code only values AE E S G K Z H AA O shall be allowed - I valori accettati sono esclusivamente AE E S G K Z H AA O.</svrl:text>
+               <svrl:text>[BR-IT-350] - For VAT category code only values AE B E S G K Z H AA O shall be allowed - I valori accettati sono esclusivamente AE B E S G K Z H AA O.</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -18570,7 +18570,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="//cac:AdditionalDocumentReference[cbc:ID]" priority="1011" mode="M38">
+   <axsl:template match="//cac:AdditionalDocumentReference[cbc:ID]" priority="1015" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="//cac:AdditionalDocumentReference[cbc:ID]"/>
 
 		<!--ASSERT -->
@@ -18593,7 +18593,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1010" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1014" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18616,7 +18616,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1009" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1013" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18639,7 +18639,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1008" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1012" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18662,7 +18662,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1007" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1011" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18685,7 +18685,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1006" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1010" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18708,7 +18708,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1005" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1009" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18731,7 +18731,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1004" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1008" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18754,7 +18754,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1003" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1007" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18777,7 +18777,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1002" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1006" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18800,7 +18800,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1001" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID" priority="1005" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:DocumentReference/cbc:ID"/>
 
 		<!--ASSERT -->
@@ -18823,7 +18823,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 
 	<!--RULE -->
 
-   <axsl:template match="/*/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode" priority="1000" mode="M38">
+   <axsl:template match="/*/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode" priority="1004" mode="M38">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode"/>
 
 		<!--ASSERT -->
@@ -18838,6 +18838,98 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
                <svrl:text>[BR-IT-470] - BT-158 (Item classification identifier) maximum lenght shall be 35 chars - La lunghezza dell'elemento non può superare i 35 caratteri.</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+      <axsl:apply-templates select="@*|*" mode="M38"/>
+   </axsl:template>
+
+	<!--RULE -->
+
+   <axsl:template match="/*/cac:AllowanceCharge" priority="1003" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:AllowanceCharge"/>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="cbc:AllowanceChargeReason = 'IT:BOLLO' and (not(cbc:AllowanceChargeReasonCode) or cbc:AllowanceChargeReasonCode = 'SAE') and cbc:Amount = 0.00 and cbc:BaseAmount &gt; 0 and count(cac:TaxCategory[cbc:ID = 'E' and cbc:Percent = 0]) = 1 and ../cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount &gt; 77.47 and not(../cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory[cbc:ID = 'S' or cbc:ID = 'B']) and count(../cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory[cbc:ID = 'E' and cbc:Percent = 0 and contains(lower-case(cbc:TaxExemptionReason), 'bollo')]) = 1"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="cbc:AllowanceChargeReason = 'IT:BOLLO' and (not(cbc:AllowanceChargeReasonCode) or cbc:AllowanceChargeReasonCode = 'SAE') and cbc:Amount = 0.00 and cbc:BaseAmount &gt; 0 and count(cac:TaxCategory[cbc:ID = 'E' and cbc:Percent = 0]) = 1 and ../cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount &gt; 77.47 and not(../cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory[cbc:ID = 'S' or cbc:ID = 'B']) and count(../cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory[cbc:ID = 'E' and cbc:Percent = 0 and contains(lower-case(cbc:TaxExemptionReason), 'bollo')]) = 1">
+               <axsl:attribute name="id">BR-IT-480</axsl:attribute>
+               <axsl:attribute name="flag">fatal</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[BR-IT-480] - Se la fattura è soggetta alla marca da bollo questa non deve contenere IVA, l'importo deve essere superiore a 77.47 EURO e nel riepilogo IVA deve menzionare il motivo dell'esenzione "Bollo assolto ai sensi del decreto MEF 17 giugno 2014 (art. 6)".</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+      <axsl:apply-templates select="@*|*" mode="M38"/>
+   </axsl:template>
+
+	<!--RULE -->
+
+   <axsl:template match="/*/cac:InvoiceLine/cac:Item[sum(for $i in cac:AdditionalItemProperty return if ($i[starts-with(cbc:Name,'IT:RITENUTA:')]) then 1 else 0) &gt; 0]" priority="1002" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:Item[sum(for $i in cac:AdditionalItemProperty return if ($i[starts-with(cbc:Name,'IT:RITENUTA:')]) then 1 else 0) &gt; 0]"/>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="sum(for $i in cac:AdditionalItemProperty return if ($i[cbc:Name='IT:RITENUTA:TIPO' or cbc:Name='IT:RITENUTA:ALIQUOTA' or cbc:Name='IT:RITENUTA:CAUSALE']) then 1 else 0) = 3"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="sum(for $i in cac:AdditionalItemProperty return if ($i[cbc:Name='IT:RITENUTA:TIPO' or cbc:Name='IT:RITENUTA:ALIQUOTA' or cbc:Name='IT:RITENUTA:CAUSALE']) then 1 else 0) = 3">
+               <axsl:attribute name="id">BR-IT-490</axsl:attribute>
+               <axsl:attribute name="flag">fatal</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[BR-IT-490] - La ritenuta d'acconto, se presente, deve specificare almeno il Tipo, l'Aliquota e la Causale.</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+      <axsl:apply-templates select="@*|*" mode="M38"/>
+   </axsl:template>
+
+	<!--RULE -->
+
+   <axsl:template match="/*/cac:InvoiceLine/cac:Item[cbc:Name = 'IT:CASSA']" priority="1001" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:InvoiceLine/cac:Item[cbc:Name = 'IT:CASSA']"/>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="sum(for $i in cac:AdditionalItemProperty return if ($i[cbc:Name = 'IT:CASSA:TIPO' or cbc:Name = 'IT:CASSA:ALIQUOTA']) then 1 else 0) = 2"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="sum(for $i in cac:AdditionalItemProperty return if ($i[cbc:Name = 'IT:CASSA:TIPO' or cbc:Name = 'IT:CASSA:ALIQUOTA']) then 1 else 0) = 2">
+               <axsl:attribute name="id">BR-IT-500</axsl:attribute>
+               <axsl:attribute name="flag">fatal</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[BR-IT-500] - La Cassa Previdenziale, se presente, deve contenere almeno il Tipo e l'Aliquota.</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+      <axsl:apply-templates select="@*|*" mode="M38"/>
+   </axsl:template>
+
+	<!--RULE -->
+
+   <axsl:template match="/*/cac:TaxTotal[cac:TaxSubtotal/cac:TaxCategory/cbc:ID = 'B']" priority="1000" mode="M38">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="/*/cac:TaxTotal[cac:TaxSubtotal/cac:TaxCategory/cbc:ID = 'B']"/>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(/*/cac:TaxTotal[cac:TaxSubtotal/cac:TaxCategory/cbc:ID = 'S']) and /*/cac:PaymentTerms/cbc:Note"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(/*/cac:TaxTotal[cac:TaxSubtotal/cac:TaxCategory/cbc:ID = 'S']) and /*/cac:PaymentTerms/cbc:Note">
+               <axsl:attribute name="id">BR-IT-510</axsl:attribute>
+               <axsl:attribute name="flag">fatal</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[BR-IT-510] - Se la fattura è soggetta allo Split Payment questa deve esclusivamente utilizzare il TaxCategory = 'B' e deve indicare nei termini di pagamento "The total is without the VAT amount due to Split payment (ex art.17-ter del DPR 633/1972)".</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>

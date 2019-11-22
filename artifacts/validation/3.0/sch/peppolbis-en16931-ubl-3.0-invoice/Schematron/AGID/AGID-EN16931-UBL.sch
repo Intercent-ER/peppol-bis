@@ -37,18 +37,18 @@
 		<assert test="matches(.,'^[a-zA-Z0-9]{0,20}$')" flag="fatal" id="BR-IT-090">[BR-IT-090] - BT-25 (Preceding Invoice number) maximum lenght shall be 20 chars - La lunghezza dell'elemento non può superare i 20 caratteri.</assert>
 	</rule>
 
-	<rule context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyIdentification/cbc:ID, 'IT:EORI:')]" flag="fatal">
-		<assert test="matches(cac:PartyIdentification/cbc:ID,'^IT:EORI:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 21 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 25" flag="fatal" id="BR-IT-100">[BR-IT-100] - BT-29 (Seller identifier) Se il valore dell’elemento BT-40 (Seller country code) è "IT", se il valore dell'elemento BT-29 Seller identifier comincia con "IT:EORI:",  la sua lunghezza deve essere compresa fra 21 e 25 caratteri. 
+	<rule context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:EORI:')) then 1 else 0) &gt; 0]" flag="fatal">
+		<assert test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:EORI:[A-Z0-9]+$') and string-length($i) &gt;= 21 and string-length($i) &lt;= 25) then 1 else 0) &gt; 0" flag="fatal" id="BR-IT-100">[BR-IT-100] - BT-29 (Seller identifier) Se il valore dell’elemento BT-40 (Seller country code) è "IT", se il valore dell'elemento BT-29 Seller identifier comincia con "IT:EORI:",  la sua lunghezza deve essere compresa fra 21 e 25 caratteri. 
 Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "IT:ALBO:",  la sua lunghezza non può superare i 129 caratteri e deve essere indicato come "IT:ALBO:AlboProfessionale:NumeroIscrizioneAlbo".</assert>
 	</rule>
 	
-	<rule context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyIdentification/cbc:ID, 'IT:ALBO:')]" flag="fatal">
-		<assert test="matches(cac:PartyIdentification/cbc:ID,'^IT:ALBO:[a-zA-Z]+:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 1 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 129" flag="fatal" id="BR-IT-100">[BR-IT-100] - BT-29 (Seller identifier) Se il valore dell’elemento BT-40 (Seller country code) è "IT", se il valore dell'elemento BT-29 Seller identifier comincia con "IT:EORI:",  la sua lunghezza deve essere compresa fra 21 e 25 caratteri. 
+	<rule context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:ALBO:')) then 1 else 0) &gt; 0]" flag="fatal">
+		<assert test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:ALBO:[a-zA-Z]+:[A-Z0-9]+$') and string-length($i) &gt;= 1 and string-length($i) &lt;= 129) then 1 else 0) &gt; 0" flag="fatal" id="BR-IT-100">[BR-IT-100] - BT-29 (Seller identifier) Se il valore dell’elemento BT-40 (Seller country code) è "IT", se il valore dell'elemento BT-29 Seller identifier comincia con "IT:EORI:",  la sua lunghezza deve essere compresa fra 21 e 25 caratteri. 
 Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "IT:ALBO:",  la sua lunghezza non può superare i 129 caratteri e deve essere indicato come "IT:ALBO:AlboProfessionale:NumeroIscrizioneAlbo".</assert>
 	</rule>
 
-	<rule context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and starts-with(cac:PartyLegalEntity/cbc:CompanyID, 'IT:REA:')]" flag="fatal">
-		<assert test="matches(cac:PartyIdentification/cbc:ID,'^IT:REA:[a-zA-Z0-9]+:[A-Z0-9]+$') and string-length(cac:PartyIdentification/cbc:ID) &gt;= 10 and string-length(cac:PartyIdentification/cbc:ID) &lt;= 30" flag="fatal" id="BR-IT-110">[BR-IT-110] - Se il valore dell’elemento BT-40 (Seller country code) è "IT", se il valore dell'elemento BT-30 Seller legal registration identifier comincia con "IT:REA:", la sua lunghezza deve essere compresa fra 10 e 30 caratteri e deve essere indicato come "IT:REA:Ufficio:NumeroREA".</assert>
+	<rule context="/*/cac:AccountingSupplierParty/cac:Party[cac:PostalAddress/cac:Country/cbc:IdentificationCode='IT' and sum(for $i in cac:PartyIdentification/cbc:ID return if (starts-with($i, 'IT:REA:')) then 1 else 0) &gt; 0]" flag="fatal">
+		<assert test="sum(for $i in cac:PartyIdentification/cbc:ID return if (matches($i,'^IT:REA:[a-zA-Z0-9]+:[A-Z0-9]+$') and string-length($i) &gt;= 10 and string-length($i) &lt;= 30) then 1 else 0) &gt; 0" flag="fatal" id="BR-IT-110">[BR-IT-110] - Se il valore dell’elemento BT-40 (Seller country code) è "IT", se il valore dell'elemento BT-30 Seller legal registration identifier comincia con "IT:REA:", la sua lunghezza deve essere compresa fra 10 e 30 caratteri e deve essere indicato come "IT:REA:Ufficio:NumeroREA".</assert>
 	</rule>
 
 	<rule context="/*/cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" flag="fatal">
@@ -73,7 +73,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 	</rule>
 	
 	<rule context="/*/cac:AccountingCustomerParty/cac:Party/cbc:EndpointID" flag="fatal">
-		<assert test="(@schemeID = '9921' or @schemeID='0201') and (matches(.,'^(IT:IPA:)?[a-zA-Z0-9]{6}$') or matches(.,'^IT:PEC:[a-zA-Z0-9]{7,256}$') or matches(.,'^IT:CODDEST:[a-zA-Z0-9]{7}$'))" flag="fatal" id="BR-IT-200">[BR-IT-200] - Se l'elemento BT-49-1 Buyer electronic address identification scheme identifier contiene il valore "0201" (ex 9921), l'elemento BT-49 Buyer electronic address 
+		<assert test="(@schemeID = '9921' or @schemeID='0201') and (matches(.,'^(IT:IPA:)?[a-zA-Z0-9]{6}$') or (matches(.,'^IT:PEC:(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)$') and matches(.,'^.{14,256}$')) or matches(.,'^IT:CODDEST:[a-zA-Z0-9]{7}$'))" flag="fatal" id="BR-IT-200">[BR-IT-200] - Se l'elemento BT-49-1 Buyer electronic address identification scheme identifier contiene il valore "0201" (ex 9921), l'elemento BT-49 Buyer electronic address 
 		rappresenta un codice IPA, può iniziare opzionalmente con il prefisso "IT:IPA:" e deve essere seguito da un identificatore con lunghezza pari a 6 caratteri,
 		oppure può iniziare con il prefisso "IT:PEC:" ed essere seguito da un indirizzo PEC di lunghezza compresa fra 7 e 256 caratteri,
 		oppure può iniziare con il prefisso "IT:CODDEST:" ed essere seguito da un identificatore con lunghezza pari a 7 caratteri.</assert>
@@ -124,7 +124,7 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 	</rule>
 	
 	<rule context="//cac:TaxCategory/cbc:ID | //cac:ClassifiedTaxCategory/cbc:ID" flag="fatal">
-		<assert test="contains(' AE E S G K Z H AA O ', concat(' ',normalize-space(.),' '))" flag="fatal" id="BR-IT-350">[BR-IT-350] - For VAT category code only values AE E S G K Z H AA O shall be allowed - I valori accettati sono esclusivamente AE E S G K Z H AA O.</assert>
+		<assert test="contains(' AE B E S G K Z H AA O ', concat(' ',normalize-space(.),' '))" flag="fatal" id="BR-IT-350">[BR-IT-350] - For VAT category code only values AE B E S G K Z H AA O shall be allowed - I valori accettati sono esclusivamente AE B E S G K Z H AA O.</assert>
 	</rule>
 	
 	<rule context="//cac:AdditionalDocumentReference[cbc:ID]" flag="fatal">
@@ -173,6 +173,26 @@ Altrimenti, se il valore dell'elemento BT-29 Seller identifier comincia con "I
 	
 	<rule context="/*/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode" flag="fatal">
 		<assert test="matches(.,'^[a-zA-Z0-9]{0,35}$')" flag="fatal" id="BR-IT-470">[BR-IT-470] - BT-158 (Item classification identifier) maximum lenght shall be 35 chars - La lunghezza dell'elemento non può superare i 35 caratteri.</assert>
+	</rule>
+	
+	<!-- BOLLO -->
+	<rule context="/*/cac:AllowanceCharge" flag="fatal">
+		<assert test="cbc:AllowanceChargeReason = 'IT:BOLLO' and (not(cbc:AllowanceChargeReasonCode) or cbc:AllowanceChargeReasonCode = 'SAE') and cbc:Amount = 0.00 and cbc:BaseAmount &gt; 0 and count(cac:TaxCategory[cbc:ID = 'E' and cbc:Percent = 0]) = 1 and ../cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount &gt; 77.47 and not(../cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory[cbc:ID = 'S' or cbc:ID = 'B']) and count(../cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory[cbc:ID = 'E' and cbc:Percent = 0 and contains(lower-case(cbc:TaxExemptionReason), 'bollo')]) = 1" flag="fatal" id="BR-IT-480">[BR-IT-480] - Se la fattura è soggetta alla marca da bollo questa non deve contenere IVA, l'importo deve essere superiore a 77.47 EURO e nel riepilogo IVA deve menzionare il motivo dell'esenzione "Bollo assolto ai sensi del decreto MEF 17 giugno 2014 (art. 6)".</assert>
+	</rule>
+
+	<rule context="/*/cac:InvoiceLine/cac:Item[sum(for $i in cac:AdditionalItemProperty return if ($i[starts-with(cbc:Name,'IT:RITENUTA:')]) then 1 else 0) &gt; 0]" flag="fatal">
+		<!-- RITENUTA -->
+		<assert test="sum(for $i in cac:AdditionalItemProperty return if ($i[cbc:Name='IT:RITENUTA:TIPO' or cbc:Name='IT:RITENUTA:ALIQUOTA' or cbc:Name='IT:RITENUTA:CAUSALE']) then 1 else 0) = 3" flag="fatal" id="BR-IT-490">[BR-IT-490] - La ritenuta d'acconto, se presente, deve specificare almeno il Tipo, l'Aliquota e la Causale.</assert>
+	</rule>
+
+	<!-- CASSA -->
+	<rule context="/*/cac:InvoiceLine/cac:Item[cbc:Name = 'IT:CASSA']" flag="fatal">
+		<assert test="sum(for $i in cac:AdditionalItemProperty return if ($i[cbc:Name = 'IT:CASSA:TIPO' or cbc:Name = 'IT:CASSA:ALIQUOTA']) then 1 else 0) = 2" flag="fatal" id="BR-IT-500">[BR-IT-500] - La Cassa Previdenziale, se presente, deve contenere almeno il Tipo e l'Aliquota.</assert>
+	</rule>
+
+	<!-- Esigibilità: Split Payment -->
+	<rule context="/*/cac:TaxTotal[cac:TaxSubtotal/cac:TaxCategory/cbc:ID = 'B']" flag="fatal">
+		<assert test="not(/*/cac:TaxTotal[cac:TaxSubtotal/cac:TaxCategory/cbc:ID = 'S']) and /*/cac:PaymentTerms/cbc:Note" flag="fatal" id="BR-IT-510">[BR-IT-510] - Se la fattura è soggetta allo Split Payment questa deve esclusivamente utilizzare il TaxCategory = 'B' e deve indicare nei termini di pagamento "The total is without the VAT amount due to Split payment (ex art.17-ter del DPR 633/1972)".</assert>
 	</rule>
 
 </pattern>
