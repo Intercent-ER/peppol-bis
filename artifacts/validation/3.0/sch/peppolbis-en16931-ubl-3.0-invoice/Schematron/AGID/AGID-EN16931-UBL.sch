@@ -2,7 +2,7 @@
 <pattern id="Italian-CIUS-rules" xmlns="http://purl.oclc.org/dsdl/schematron">
 
 	<rule context="/*/cbc:ID" flag="fatal">
-		<assert test="matches(.,'^[a-zA-Z]*[0-9]+[a-zA-Z]*$') and string-length(.) &gt;= 1 and string-length(.) &lt;= 20" flag="fatal" id="BR-IT-010">[BR-IT-010] - BT-1 (Invoice number) maximum lenght shall be 20 chars with at least one digit - La lunghezza dell'elemento non può superare i 20 caratteri e deve includere almeno una cifra.</assert>
+		<assert test="matches(.,'^(\p{IsBasicLatin})*[0-9]+(\p{IsBasicLatin})*$') and string-length(.) &gt;= 1 and string-length(.) &lt;= 20" flag="fatal" id="BR-IT-010">[BR-IT-010] - BT-1 (Invoice number) maximum lenght shall be 20 chars with at least one digit - La lunghezza dell'elemento non può superare i 20 caratteri e deve includere almeno una cifra.</assert>
 	</rule>
 
 	<rule context="/*/cac:ProjectReference/cbc:ID" flag="fatal">

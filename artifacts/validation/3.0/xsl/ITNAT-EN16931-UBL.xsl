@@ -32,7 +32,7 @@
 		
       <variable name="weightedSum" select="sum(for $i in (0 to $length - 1) return $digits[$i + 1] * (1 + ((($i + 1) mod 2) * 2)))"/>
 		
-      <value-of select="10 - ($weightedSum mod 10) = number(substring($val, $length + 1, 1))"/>
+      <value-of select="(10 - ($weightedSum mod 10)) mod 10 = number(substring($val, $length + 1, 1))"/>
 	
    </function>
    <function xmlns="http://www.w3.org/1999/XSL/Transform" name="u:slack" as="xs:boolean">
@@ -770,9 +770,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="(xs:decimal(cbc:LineExtensionAmount) = (round(sum(//cac:InvoiceLine/xs:decimal(cbc:LineExtensionAmount)) * 10 * 10) div 100)) or (xs:decimal(cbc:LineExtensionAmount) = (round(sum(//cac:CreditNoteLine/xs:decimal(cbc:LineExtensionAmount)) * 10 * 10) div 100))"/>
+         <axsl:when test="(xs:decimal(cbc:LineExtensionAmount) = (round(sum(//(cac:InvoiceLine|cac:CreditNoteLine)/xs:decimal(cbc:LineExtensionAmount)) * 10 * 10) div 100))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(xs:decimal(cbc:LineExtensionAmount) = (round(sum(//cac:InvoiceLine/xs:decimal(cbc:LineExtensionAmount)) * 10 * 10) div 100)) or (xs:decimal(cbc:LineExtensionAmount) = (round(sum(//cac:CreditNoteLine/xs:decimal(cbc:LineExtensionAmount)) * 10 * 10) div 100))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(xs:decimal(cbc:LineExtensionAmount) = (round(sum(//(cac:InvoiceLine|cac:CreditNoteLine)/xs:decimal(cbc:LineExtensionAmount)) * 10 * 10) div 100))">
                <axsl:attribute name="id">BR-CO-10</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -2348,9 +2348,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="exists(cbc:StartDate) or exists(cbc:EndDate)"/>
+         <axsl:when test="exists(cbc:StartDate) or exists(cbc:EndDate) or (exists(cbc:DescriptionCode) and not(exists(cbc:StartDate)) and not(exists(cbc:EndDate)))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="exists(cbc:StartDate) or exists(cbc:EndDate)">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="exists(cbc:StartDate) or exists(cbc:EndDate) or (exists(cbc:DescriptionCode) and not(exists(cbc:StartDate)) and not(exists(cbc:EndDate)))">
                <axsl:attribute name="id">BR-CO-19</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -3751,9 +3751,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="every $rate in xs:decimal(round(cbc:Percent)) satisfies (((exists(//cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))))) or (exists(//cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount))))))"/>
+         <axsl:when test="every $rate in cbc:Percent satisfies (((exists(//cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))))) or (exists(//cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount))))))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="every $rate in xs:decimal(round(cbc:Percent)) satisfies (((exists(//cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))))) or (exists(//cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount))))))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="every $rate in cbc:Percent satisfies (((exists(//cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:InvoiceLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))))) or (exists(//cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID) = 'S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]) or exists(//cac:AllowanceCharge[cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate])) and ((../xs:decimal(cbc:TaxableAmount - 1) &lt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)))) and (../xs:decimal(cbc:TaxableAmount + 1) &gt; (sum(../../../cac:CreditNoteLine[cac:Item/cac:ClassifiedTaxCategory/normalize-space(cbc:ID)='S'][cac:Item/cac:ClassifiedTaxCategory/xs:decimal(round(cbc:Percent)) =$rate]/xs:decimal(cbc:LineExtensionAmount)) + sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=true()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount)) - sum(../../../cac:AllowanceCharge[cbc:ChargeIndicator=false()][cac:TaxCategory/normalize-space(cbc:ID)='S'][cac:TaxCategory/xs:decimal(round(cbc:Percent)) = $rate]/xs:decimal(cbc:Amount))))))">
                <axsl:attribute name="id">BR-S-08</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -4029,9 +4029,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="(count(cbc:DocumentType) &lt;= 1)"/>
+         <axsl:when test="(count(cbc:DocumentDescription) &lt;= 1)"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(count(cbc:DocumentType) &lt;= 1)">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(count(cbc:DocumentDescription) &lt;= 1)">
                <axsl:attribute name="id">UBL-SR-33</axsl:attribute>
                <axsl:attribute name="flag">warning</axsl:attribute>
                <axsl:attribute name="location">
@@ -14775,6 +14775,134 @@
 		<!--ASSERT -->
 
       <axsl:choose>
+         <axsl:when test="not(//cac:AdditionalDocumentReference[cbc:DocumentTypeCode  != '130' or not(cbc:DocumentTypeCode)]/cbc:ID/@schemeID)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:AdditionalDocumentReference[cbc:DocumentTypeCode != '130' or not(cbc:DocumentTypeCode)]/cbc:ID/@schemeID)">
+               <axsl:attribute name="id">UBL-CR-665</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-665]-A UBL invoice should not include the AdditonalDocumentReference ID schemeID unless the ID equals '130'</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//cac:AdditionalDocumentReference[cbc:DocumentTypeCode  = '130']/cac:Attachment)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:AdditionalDocumentReference[cbc:DocumentTypeCode = '130']/cac:Attachment)">
+               <axsl:attribute name="id">UBL-CR-666</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-666]-A UBL invoice should not include the AdditonalDocumentReference referring to an Invoice Object Identifier should not include an Attachment</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//cac:BuyersItemIdentification/cbc:ID/@schemeID)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:BuyersItemIdentification/cbc:ID/@schemeID)">
+               <axsl:attribute name="id">UBL-CR-667</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-667]-A UBL invoice should not include a Buyer Item Identification schemeID</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//cac:SellersItemIdentification/cbc:ID/@schemeID)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:SellersItemIdentification/cbc:ID/@schemeID)">
+               <axsl:attribute name="id">UBL-CR-668</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-668]-A UBL invoice should not include a Sellers Item Identification schemeID</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//cac:Price/cac:AllowanceCharge/cbc:AllowanceChargeReasonCode)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:Price/cac:AllowanceCharge/cbc:AllowanceChargeReasonCode)">
+               <axsl:attribute name="id">UBL-CR-669</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-669]-A UBL invoice should not include a Price Allowance Reason Code</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//cac:Price/cac:AllowanceCharge/cbc:AllowanceChargeReason)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:Price/cac:AllowanceCharge/cbc:AllowanceChargeReason)">
+               <axsl:attribute name="id">UBL-CR-670</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-670]-A UBL invoice should not include a Price Allowance Reason</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//cac:Price/cac:AllowanceCharge/cbc:MultiplierFactorNumeric)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//cac:Price/cac:AllowanceCharge/cbc:MultiplierFactorNumeric)">
+               <axsl:attribute name="id">UBL-CR-671</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-671]-A UBL invoice should not include a Price Allowance Multiplier Factor</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(cbc:CreditNoteTypeCode/@listID)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(cbc:CreditNoteTypeCode/@listID)">
+               <axsl:attribute name="id">UBL-CR-672</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-CR-672]-A UBL credit note should not include the CreditNoteTypeCode listID</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
          <axsl:when test="not(//@schemeName)"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//@schemeName)">
@@ -15072,6 +15200,38 @@
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
                <svrl:text>[UBL-DT-26]-EncodingCode attribute should not be present</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//@schemeAgencyID)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//@schemeAgencyID)">
+               <axsl:attribute name="id">UBL-DT-27</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-DT-27]-Scheme Agency ID attribute should not be present</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="not(//@listAgencyID)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(//@listAgencyID)">
+               <axsl:attribute name="id">UBL-DT-28</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-DT-28]-List Agency ID attribute should not be present</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -15475,6 +15635,22 @@
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="(count(cac:InvoicePeriod/cbc:DescriptionCode) &lt;=1)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(count(cac:InvoicePeriod/cbc:DescriptionCode) &lt;=1)">
+               <axsl:attribute name="id">UBL-SR-49</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-SR-49]-Value tax point date shall occur maximum once</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
       <axsl:apply-templates select="@*|*" mode="M23"/>
    </axsl:template>
 
@@ -15559,6 +15735,38 @@
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
                <svrl:text>[UBL-SR-38]-Invoiced item VAT exemption reason text shall occur maximum once</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="count(cac:Item/cac:ClassifiedTaxCategory) = 1"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="count(cac:Item/cac:ClassifiedTaxCategory) = 1">
+               <axsl:attribute name="id">UBL-SR-48</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-SR-48]-Invoice lines shall have one and only one classified tax category.</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="count(cac:Item/cbc:Description) &lt;= 1"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="count(cac:Item/cbc:Description) &lt;= 1">
+               <axsl:attribute name="id">UBL-SR-50</axsl:attribute>
+               <axsl:attribute name="flag">warning</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>[UBL-SR-50]-Item description shall occur maximum once</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -15913,9 +16121,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 ', concat(' ', normalize-space(@schemeID), ' '))))  or ((not(contains(normalize-space(@schemeID), ' ')) and contains(' SEPA ', concat(' ', normalize-space(@schemeID), ' '))) and ((ancestor::cac:AccountingSupplierParty) or (ancestor::cac:PayeeParty)))"/>
+         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 0203 0204 ', concat(' ', normalize-space(@schemeID), ' '))))  or ((not(contains(normalize-space(@schemeID), ' ')) and contains(' SEPA ', concat(' ', normalize-space(@schemeID), ' '))) and ((ancestor::cac:AccountingSupplierParty) or (ancestor::cac:PayeeParty)))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 ', concat(' ', normalize-space(@schemeID), ' ')))) or ((not(contains(normalize-space(@schemeID), ' ')) and contains(' SEPA ', concat(' ', normalize-space(@schemeID), ' '))) and ((ancestor::cac:AccountingSupplierParty) or (ancestor::cac:PayeeParty)))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 0203 0204 ', concat(' ', normalize-space(@schemeID), ' ')))) or ((not(contains(normalize-space(@schemeID), ' ')) and contains(' SEPA ', concat(' ', normalize-space(@schemeID), ' '))) and ((ancestor::cac:AccountingSupplierParty) or (ancestor::cac:PayeeParty)))">
                <axsl:attribute name="id">BR-CL-10</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -15936,9 +16144,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 ', concat(' ', normalize-space(@schemeID), ' '))))"/>
+         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 0203 0204 ', concat(' ', normalize-space(@schemeID), ' '))))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 ', concat(' ', normalize-space(@schemeID), ' '))))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 0203 0204 ', concat(' ', normalize-space(@schemeID), ' '))))">
                <axsl:attribute name="id">BR-CL-11</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -16144,9 +16352,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 ', concat(' ', normalize-space(@schemeID), ' '))))"/>
+         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 0203 0204 ', concat(' ', normalize-space(@schemeID), ' '))))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 ', concat(' ', normalize-space(@schemeID), ' '))))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0001 0002 0003 0004 0005 0006 0007 0008 0009 0010 0011 0012 0013 0014 0015 0016 0017 0018 0019 0020 0021 0022 0023 0024 0025 0026 0027 0028 0029 0030 0031 0032 0033 0034 0035 0036 0037 0038 0039 0040 0041 0042 0043 0044 0045 0046 0047 0048 0049 0050 0051 0052 0053 0054 0055 0056 0057 0058 0059 0060 0061 0062 0063 0064 0065 0066 0067 0068 0069 0070 0071 0072 0073 0074 0075 0076 0077 0078 0079 0080 0081 0082 0083 0084 0085 0086 0087 0088 0089 0090 0091 0093 0094 0095 0096 0097 0098 0099 0100 0101 0102 0104 0105 0106 0107 0108 0109 0110 0111 0112 0113 0114 0115 0116 0117 0118 0119 0120 0121 0122 0123 0124 0125 0126 0127 0128 0129 0130 0131 0132 0133 0134 0135 0136 0137 0138 0139 0140 0141 0142 0143 0144 0145 0146 0147 0148 0149 0150 0151 0152 0153 0154 0155 0156 0157 0158 0159 0160 0161 0162 0163 0164 0165 0166 0167 0168 0169 0170 0171 0172 0173 0174 0175 0176 0177 0178 0179 0180 0183 0184 0185 0186 0187 0188 0189 0190 0191 0192 0193 0194 0195 0196 0197 0198 0199 0200 0201 0202 0203 0204 ', concat(' ', normalize-space(@schemeID), ' '))))">
                <axsl:attribute name="id">BR-CL-21</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -16167,9 +16375,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="((not(contains(normalize-space(.), ' ')) and contains(' vatex-eu-132-1a vatex-eu-132-1b vatex-eu-132-1c vatex-eu-132-1d vatex-eu-132-1e vatex-eu-132-1f vatex-eu-132-1g vatex-eu-132-1h vatex-eu-132-1i vatex-eu-132-1j vatex-eu-132-1k vatex-eu-132-1l vatex-eu-132-1m vatex-eu-132-1n vatex-eu-132-1o vatex-eu-132-1p vatex-eu-132-1q vatex-eu-143-1a vatex-eu-143-1b vatex-eu-143-1c vatex-eu-143-1d vatex-eu-143-1e vatex-eu-143-1f vatex-eu-143-1fa vatex-eu-143-1g vatex-eu-143-1h vatex-eu-143-1i vatex-eu-143-1j vatex-eu-143-1k vatex-eu-143-1l vatex-eu-309 vatex-eu-148-a vatex-eu-148-b vatex-eu-148-c vatex-eu-148-d vatex-eu-148-e vatex-eu-148-f vatex-eu-148-g vatex-eu-151-1a vatex-eu-151-1aa vatex-eu-151-1b vatex-eu-151-1c vatex-eu-151-1d vatex-eu-151-1e vatex-eu-g vatex-eu-o vatex-eu-ic vatex-eu-ae vatex-eu-d vatex-eu-f vatex-eu-i vatex-eu-j ', concat(' ', normalize-space(.), ' '))))"/>
+         <axsl:when test="((not(contains(normalize-space(.), ' ')) and contains(' vatex-eu-132 vatex-eu-132-1a vatex-eu-132-1b vatex-eu-132-1c vatex-eu-132-1d vatex-eu-132-1e vatex-eu-132-1f vatex-eu-132-1g vatex-eu-132-1h vatex-eu-132-1i vatex-eu-132-1j vatex-eu-132-1k vatex-eu-132-1l vatex-eu-132-1m vatex-eu-132-1n vatex-eu-132-1o vatex-eu-132-1p vatex-eu-132-1q vatex-eu-143 vatex-eu-143-1a vatex-eu-143-1b vatex-eu-143-1c vatex-eu-143-1d vatex-eu-143-1e vatex-eu-143-1f vatex-eu-143-1fa vatex-eu-143-1g vatex-eu-143-1h vatex-eu-143-1i vatex-eu-143-1j vatex-eu-143-1k vatex-eu-143-1l vatex-eu-309 vatex-eu-148 vatex-eu-148-a vatex-eu-148-b vatex-eu-148-c vatex-eu-148-d vatex-eu-148-e vatex-eu-148-f vatex-eu-148-g vatex-eu-151 vatex-eu-151-1a vatex-eu-151-1aa vatex-eu-151-1b vatex-eu-151-1c vatex-eu-151-1d vatex-eu-151-1e vatex-eu-g vatex-eu-o vatex-eu-ic vatex-eu-ae vatex-eu-d vatex-eu-f vatex-eu-i vatex-eu-j ', concat(' ', normalize-space(.), ' '))))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(.), ' ')) and contains(' vatex-eu-132-1a vatex-eu-132-1b vatex-eu-132-1c vatex-eu-132-1d vatex-eu-132-1e vatex-eu-132-1f vatex-eu-132-1g vatex-eu-132-1h vatex-eu-132-1i vatex-eu-132-1j vatex-eu-132-1k vatex-eu-132-1l vatex-eu-132-1m vatex-eu-132-1n vatex-eu-132-1o vatex-eu-132-1p vatex-eu-132-1q vatex-eu-143-1a vatex-eu-143-1b vatex-eu-143-1c vatex-eu-143-1d vatex-eu-143-1e vatex-eu-143-1f vatex-eu-143-1fa vatex-eu-143-1g vatex-eu-143-1h vatex-eu-143-1i vatex-eu-143-1j vatex-eu-143-1k vatex-eu-143-1l vatex-eu-309 vatex-eu-148-a vatex-eu-148-b vatex-eu-148-c vatex-eu-148-d vatex-eu-148-e vatex-eu-148-f vatex-eu-148-g vatex-eu-151-1a vatex-eu-151-1aa vatex-eu-151-1b vatex-eu-151-1c vatex-eu-151-1d vatex-eu-151-1e vatex-eu-g vatex-eu-o vatex-eu-ic vatex-eu-ae vatex-eu-d vatex-eu-f vatex-eu-i vatex-eu-j ', concat(' ', normalize-space(.), ' '))))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(.), ' ')) and contains(' vatex-eu-132 vatex-eu-132-1a vatex-eu-132-1b vatex-eu-132-1c vatex-eu-132-1d vatex-eu-132-1e vatex-eu-132-1f vatex-eu-132-1g vatex-eu-132-1h vatex-eu-132-1i vatex-eu-132-1j vatex-eu-132-1k vatex-eu-132-1l vatex-eu-132-1m vatex-eu-132-1n vatex-eu-132-1o vatex-eu-132-1p vatex-eu-132-1q vatex-eu-143 vatex-eu-143-1a vatex-eu-143-1b vatex-eu-143-1c vatex-eu-143-1d vatex-eu-143-1e vatex-eu-143-1f vatex-eu-143-1fa vatex-eu-143-1g vatex-eu-143-1h vatex-eu-143-1i vatex-eu-143-1j vatex-eu-143-1k vatex-eu-143-1l vatex-eu-309 vatex-eu-148 vatex-eu-148-a vatex-eu-148-b vatex-eu-148-c vatex-eu-148-d vatex-eu-148-e vatex-eu-148-f vatex-eu-148-g vatex-eu-151 vatex-eu-151-1a vatex-eu-151-1aa vatex-eu-151-1b vatex-eu-151-1c vatex-eu-151-1d vatex-eu-151-1e vatex-eu-g vatex-eu-o vatex-eu-ic vatex-eu-ae vatex-eu-d vatex-eu-f vatex-eu-i vatex-eu-j ', concat(' ', normalize-space(.), ' '))))">
                <axsl:attribute name="id">BR-CL-22</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -16237,9 +16445,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0002 0007 0009 0037 0060 0088 0096 0097 0106 0135 0142 0151 0183 0184 0190 0191 0192 0193 0195 0196 0198 0199 0200 0201 0202 9901 9902 9904 9905 9906 9907 9910 9913 9914 9915 9917 9918 9919 9920 9921 9922 9923 9924 9925 9926 9927 9928 9929 9930 9931 9932 9933 9934 9935 9936 9937 9938 9939 9940 9941 9942 9943 9944 9945 9946 9947 9948 9949 9950 9951 9952 9953 9955 9956 9957 9958 AN AQ AS AU EM ', concat(' ', normalize-space(@schemeID), ' '))))"/>
+         <axsl:when test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0002 0007 0009 0037 0060 0088 0096 0097 0106 0130 0135 0142 0151 0183 0184 0190 0191 0192 0193 0195 0196 0198 0199 0200 0201 0202 0203 0204 9901 9902 9904 9905 9906 9907 9910 9913 9914 9915 9918 9919 9920 9922 9923 9924 9925 9926 9927 9928 9929 9930 9931 9932 9933 9934 9935 9936 9937 9938 9939 9940 9941 9942 9943 9944 9945 9946 9947 9948 9949 9950 9951 9952 9953 9955 9956 9957 9958 AN AQ AS AU EM ', concat(' ', normalize-space(@schemeID), ' '))))"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0002 0007 0009 0037 0060 0088 0096 0097 0106 0135 0142 0151 0183 0184 0190 0191 0192 0193 0195 0196 0198 0199 0200 0201 0202 9901 9902 9904 9905 9906 9907 9910 9913 9914 9915 9917 9918 9919 9920 9921 9922 9923 9924 9925 9926 9927 9928 9929 9930 9931 9932 9933 9934 9935 9936 9937 9938 9939 9940 9941 9942 9943 9944 9945 9946 9947 9948 9949 9950 9951 9952 9953 9955 9956 9957 9958 AN AQ AS AU EM ', concat(' ', normalize-space(@schemeID), ' '))))">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="((not(contains(normalize-space(@schemeID), ' ')) and contains(' 0002 0007 0009 0037 0060 0088 0096 0097 0106 0130 0135 0142 0151 0183 0184 0190 0191 0192 0193 0195 0196 0198 0199 0200 0201 0202 0203 0204 9901 9902 9904 9905 9906 9907 9910 9913 9914 9915 9918 9919 9920 9922 9923 9924 9925 9926 9927 9928 9929 9930 9931 9932 9933 9934 9935 9936 9937 9938 9939 9940 9941 9942 9943 9944 9945 9946 9947 9948 9949 9950 9951 9952 9953 9955 9956 9957 9958 AN AQ AS AU EM ', concat(' ', normalize-space(@schemeID), ' '))))">
                <axsl:attribute name="id">BR-CL-25</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -16264,39 +16472,16 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cbc:*" priority="1001" mode="M31">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:*"/>
+   <axsl:template match="//*[not(*) and not(normalize-space())]" priority="1000" mode="M31">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="//*[not(*) and not(normalize-space())]"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test=". != ''"/>
+         <axsl:when test="false()"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test=". != ''">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="false()">
                <axsl:attribute name="id">PEPPOL-EN16931-R008</axsl:attribute>
-               <axsl:attribute name="flag">fatal</axsl:attribute>
-               <axsl:attribute name="location">
-                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
-               </axsl:attribute>
-               <svrl:text>Document MUST not contain empty elements.</svrl:text>
-            </svrl:failed-assert>
-         </axsl:otherwise>
-      </axsl:choose>
-      <axsl:apply-templates select="@*|*" mode="M31"/>
-   </axsl:template>
-
-	<!--RULE -->
-
-   <axsl:template match="cac:*" priority="1000" mode="M31">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:*"/>
-
-		<!--ASSERT -->
-
-      <axsl:choose>
-         <axsl:when test="count(*) != 0"/>
-         <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="count(*) != 0">
-               <axsl:attribute name="id">PEPPOL-EN16931-R009</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
@@ -16317,7 +16502,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-creditnote:CreditNote | ubl-invoice:Invoice" priority="1015" mode="M32">
+   <axsl:template match="ubl-creditnote:CreditNote | ubl-invoice:Invoice" priority="1016" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote | ubl-invoice:Invoice"/>
 
 		<!--ASSERT -->
@@ -16484,7 +16669,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cbc:TaxCurrencyCode" priority="1014" mode="M32">
+   <axsl:template match="cbc:TaxCurrencyCode" priority="1015" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:TaxCurrencyCode"/>
 
 		<!--ASSERT -->
@@ -16507,7 +16692,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:AccountingCustomerParty/cac:Party" priority="1013" mode="M32">
+   <axsl:template match="cac:AccountingCustomerParty/cac:Party" priority="1014" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:AccountingCustomerParty/cac:Party"/>
 
 		<!--ASSERT -->
@@ -16530,7 +16715,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:AccountingSupplierParty/cac:Party" priority="1012" mode="M32">
+   <axsl:template match="cac:AccountingSupplierParty/cac:Party" priority="1013" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:AccountingSupplierParty/cac:Party"/>
 
 		<!--ASSERT -->
@@ -16553,7 +16738,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-invoice:Invoice/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-creditnote:CreditNote/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)]" priority="1011" mode="M32">
+   <axsl:template match="ubl-invoice:Invoice/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-creditnote:CreditNote/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)]" priority="1012" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-creditnote:CreditNote/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)] | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge[cbc:MultiplierFactorNumeric and not(cbc:BaseAmount)]"/>
 
 		<!--ASSERT -->
@@ -16576,7 +16761,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-invoice:Invoice/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-creditnote:CreditNote/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount]" priority="1010" mode="M32">
+   <axsl:template match="ubl-invoice:Invoice/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-creditnote:CreditNote/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount]" priority="1011" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-creditnote:CreditNote/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount] | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge[not(cbc:MultiplierFactorNumeric) and cbc:BaseAmount]"/>
 
 		<!--ASSERT -->
@@ -16599,7 +16784,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-invoice:Invoice/cac:AllowanceCharge | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge | ubl-creditnote:CreditNote/cac:AllowanceCharge | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge" priority="1009" mode="M32">
+   <axsl:template match="ubl-invoice:Invoice/cac:AllowanceCharge | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge | ubl-creditnote:CreditNote/cac:AllowanceCharge | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge" priority="1010" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice/cac:AllowanceCharge | ubl-invoice:Invoice/cac:InvoiceLine/cac:AllowanceCharge | ubl-creditnote:CreditNote/cac:AllowanceCharge | ubl-creditnote:CreditNote/cac:CreditNoteLine/cac:AllowanceCharge"/>
 
 		<!--ASSERT -->
@@ -16638,7 +16823,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="         cac:PaymentMeans[some $code in tokenize('49 59', '\s')           satisfies normalize-space(cbc:PaymentMeansCode) = $code]" priority="1008" mode="M32">
+   <axsl:template match="         cac:PaymentMeans[some $code in tokenize('49 59', '\s')           satisfies normalize-space(cbc:PaymentMeansCode) = $code]" priority="1009" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="         cac:PaymentMeans[some $code in tokenize('49 59', '\s')           satisfies normalize-space(cbc:PaymentMeansCode) = $code]"/>
 
 		<!--ASSERT -->
@@ -16661,7 +16846,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cbc:Amount | cbc:BaseAmount | cbc:PriceAmount | cac:TaxTotal[cac:TaxSubtotal]/cbc:TaxAmount | cbc:TaxableAmount | cbc:LineExtensionAmount | cbc:TaxExclusiveAmount | cbc:TaxInclusiveAmount | cbc:AllowanceTotalAmount | cbc:ChargeTotalAmount | cbc:PrepaidAmount | cbc:PayableRoundingAmount | cbc:PayableAmount" priority="1007" mode="M32">
+   <axsl:template match="cbc:Amount | cbc:BaseAmount | cbc:PriceAmount | cac:TaxTotal[cac:TaxSubtotal]/cbc:TaxAmount | cbc:TaxableAmount | cbc:LineExtensionAmount | cbc:TaxExclusiveAmount | cbc:TaxInclusiveAmount | cbc:AllowanceTotalAmount | cbc:ChargeTotalAmount | cbc:PrepaidAmount | cbc:PayableRoundingAmount | cbc:PayableAmount" priority="1008" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:Amount | cbc:BaseAmount | cbc:PriceAmount | cac:TaxTotal[cac:TaxSubtotal]/cbc:TaxAmount | cbc:TaxableAmount | cbc:LineExtensionAmount | cbc:TaxExclusiveAmount | cbc:TaxInclusiveAmount | cbc:AllowanceTotalAmount | cbc:ChargeTotalAmount | cbc:PrepaidAmount | cbc:PayableRoundingAmount | cbc:PayableAmount"/>
 
 		<!--ASSERT -->
@@ -16684,7 +16869,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-invoice:Invoice[cac:InvoicePeriod/cbc:StartDate]/cac:InvoiceLine/cac:InvoicePeriod/cbc:StartDate | ubl-creditnote:CreditNote[cac:InvoicePeriod/cbc:StartDate]/cac:CreditNoteLine/cac:InvoicePeriod/cbc:StartDate" priority="1006" mode="M32">
+   <axsl:template match="ubl-invoice:Invoice[cac:InvoicePeriod/cbc:StartDate]/cac:InvoiceLine/cac:InvoicePeriod/cbc:StartDate | ubl-creditnote:CreditNote[cac:InvoicePeriod/cbc:StartDate]/cac:CreditNoteLine/cac:InvoicePeriod/cbc:StartDate" priority="1007" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice[cac:InvoicePeriod/cbc:StartDate]/cac:InvoiceLine/cac:InvoicePeriod/cbc:StartDate | ubl-creditnote:CreditNote[cac:InvoicePeriod/cbc:StartDate]/cac:CreditNoteLine/cac:InvoicePeriod/cbc:StartDate"/>
 
 		<!--ASSERT -->
@@ -16707,7 +16892,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-invoice:Invoice[cac:InvoicePeriod/cbc:EndDate]/cac:InvoiceLine/cac:InvoicePeriod/cbc:EndDate | ubl-creditnote:CreditNote[cac:InvoicePeriod/cbc:EndDate]/cac:CreditNoteLine/cac:InvoicePeriod/cbc:EndDate" priority="1005" mode="M32">
+   <axsl:template match="ubl-invoice:Invoice[cac:InvoicePeriod/cbc:EndDate]/cac:InvoiceLine/cac:InvoicePeriod/cbc:EndDate | ubl-creditnote:CreditNote[cac:InvoicePeriod/cbc:EndDate]/cac:CreditNoteLine/cac:InvoicePeriod/cbc:EndDate" priority="1006" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice[cac:InvoicePeriod/cbc:EndDate]/cac:InvoiceLine/cac:InvoicePeriod/cbc:EndDate | ubl-creditnote:CreditNote[cac:InvoicePeriod/cbc:EndDate]/cac:CreditNoteLine/cac:InvoicePeriod/cbc:EndDate"/>
 
 		<!--ASSERT -->
@@ -16730,7 +16915,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:InvoiceLine | cac:CreditNoteLine" priority="1004" mode="M32">
+   <axsl:template match="cac:InvoiceLine | cac:CreditNoteLine" priority="1005" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:InvoiceLine | cac:CreditNoteLine"/>
       <axsl:variable name="lineExtensionAmount" select="           if (cbc:LineExtensionAmount) then             xs:decimal(cbc:LineExtensionAmount)           else             0"/>
       <axsl:variable name="quantity" select="           if (/ubl-invoice:Invoice) then             (if (cbc:InvoicedQuantity) then               xs:decimal(cbc:InvoicedQuantity)             else               1)           else             (if (cbc:CreditedQuantity) then               xs:decimal(cbc:CreditedQuantity)             else               1)"/>
@@ -16807,7 +16992,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:Price/cac:AllowanceCharge" priority="1003" mode="M32">
+   <axsl:template match="cac:Price/cac:AllowanceCharge" priority="1004" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:Price/cac:AllowanceCharge"/>
 
 		<!--ASSERT -->
@@ -16846,7 +17031,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:Price/cbc:BaseQuantity[@unitCode]" priority="1002" mode="M32">
+   <axsl:template match="cac:Price/cbc:BaseQuantity[@unitCode]" priority="1003" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:Price/cbc:BaseQuantity[@unitCode]"/>
       <axsl:variable name="hasQuantity" select="../../cbc:InvoicedQuantity or ../../cbc:CreditedQuantity"/>
       <axsl:variable name="quantity" select="           if (/ubl-invoice:Invoice) then             ../../cbc:InvoicedQuantity           else             ../../cbc:CreditedQuantity"/>
@@ -16871,7 +17056,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cbc:EndpointID[@schemeID = '0088'] | cac:PartyIdentification/cbc:ID[@schemeID = '0088'] | cbc:CompanyID[@schemeID = '0088']" priority="1001" mode="M32">
+   <axsl:template match="cbc:EndpointID[@schemeID = '0088'] | cac:PartyIdentification/cbc:ID[@schemeID = '0088'] | cbc:CompanyID[@schemeID = '0088']" priority="1002" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:EndpointID[@schemeID = '0088'] | cac:PartyIdentification/cbc:ID[@schemeID = '0088'] | cbc:CompanyID[@schemeID = '0088']"/>
 
 		<!--ASSERT -->
@@ -16885,7 +17070,7 @@
                <axsl:attribute name="location">
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
-               <svrl:text>Invalid GLN number provided.</svrl:text>
+               <svrl:text>GLN must have a valid format according to GS1 rules.</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -16894,7 +17079,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cbc:EndpointID[@schemeID = '0192'] | cac:PartyIdentification/cbc:ID[@schemeID = '0192'] | cbc:CompanyID[@schemeID = '0192']" priority="1000" mode="M32">
+   <axsl:template match="cbc:EndpointID[@schemeID = '0192'] | cac:PartyIdentification/cbc:ID[@schemeID = '0192'] | cbc:CompanyID[@schemeID = '0192']" priority="1001" mode="M32">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:EndpointID[@schemeID = '0192'] | cac:PartyIdentification/cbc:ID[@schemeID = '0192'] | cbc:CompanyID[@schemeID = '0192']"/>
 
 		<!--ASSERT -->
@@ -16908,7 +17093,30 @@
                <axsl:attribute name="location">
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
-               <svrl:text>Invalid Norwegian organization number provided.</svrl:text>
+               <svrl:text>Norwegian organization number MUST be stated in the correct format.</svrl:text>
+            </svrl:failed-assert>
+         </axsl:otherwise>
+      </axsl:choose>
+      <axsl:apply-templates select="@*|*" mode="M32"/>
+   </axsl:template>
+
+	<!--RULE -->
+
+   <axsl:template match="cbc:EndpointID[@schemeID = '0184'] | cac:PartyIdentification/cbc:ID[@schemeID = '0184'] | cbc:CompanyID[@schemeID = '0184']" priority="1000" mode="M32">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:EndpointID[@schemeID = '0184'] | cac:PartyIdentification/cbc:ID[@schemeID = '0184'] | cbc:CompanyID[@schemeID = '0184']"/>
+
+		<!--ASSERT -->
+
+      <axsl:choose>
+         <axsl:when test="(string-length(text()) = 10) and (substring(text(), 1, 2) = 'DK') and (string-length(translate(substring(text(), 3, 8), '1234567890', '')) = 0)"/>
+         <axsl:otherwise>
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="(string-length(text()) = 10) and (substring(text(), 1, 2) = 'DK') and (string-length(translate(substring(text(), 3, 8), '1234567890', '')) = 0)">
+               <axsl:attribute name="id">PEPPOL-COMMON-R042</axsl:attribute>
+               <axsl:attribute name="flag">fatal</axsl:attribute>
+               <axsl:attribute name="location">
+                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
+               </axsl:attribute>
+               <svrl:text>Danish organization number (CVR) MUST be stated in the correct format.</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -16970,27 +17178,13 @@
 
 <!--PATTERN OP-Denmark-rules-->
 
+   <axsl:variable name="DKSupplierCountry" select="concat(ubl-creditnote:CreditNote/cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode, ubl-invoice:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode)"/>
+   <axsl:variable name="DKCustomerCountry" select="concat(ubl-creditnote:CreditNote/cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode, ubl-invoice:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode)"/>
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-creditnote:CreditNote[$supplierCountry = 'DK'] | ubl-invoice:Invoice[$supplierCountry = 'DK']" priority="1004" mode="M34">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote[$supplierCountry = 'DK'] | ubl-invoice:Invoice[$supplierCountry = 'DK']"/>
-
-		<!--ASSERT -->
-
-      <axsl:choose>
-         <axsl:when test="not(normalize-space(cbc:AccountingCost/text()) = '')"/>
-         <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(normalize-space(cbc:AccountingCost/text()) = '')">
-               <axsl:attribute name="id">DK-R-001</axsl:attribute>
-               <axsl:attribute name="flag">warning</axsl:attribute>
-               <axsl:attribute name="location">
-                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
-               </axsl:attribute>
-               <svrl:text>For Danish suppliers when the Accounting code is known, it should be referred on the Invoice</svrl:text>
-            </svrl:failed-assert>
-         </axsl:otherwise>
-      </axsl:choose>
+   <axsl:template match="ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK'] | ubl-invoice:Invoice[$DKSupplierCountry = 'DK']" priority="1004" mode="M34">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK'] | ubl-invoice:Invoice[$DKSupplierCountry = 'DK']"/>
 
 		<!--ASSERT -->
 
@@ -17011,7 +17205,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not(((boolean(cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID))                                and (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID/@schemeID) != '0184'))                         )"/>
+         <axsl:when test="not(((boolean(cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID))           and (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID/@schemeID) != '0184'))       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(((boolean(cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID)) and (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID/@schemeID) != '0184')) )">
                <axsl:attribute name="id">DK-R-014</axsl:attribute>
@@ -17027,9 +17221,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cac:TaxScheme/cbc:ID/text()) = 'VAT')                         and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text()) = 10)          and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 1, 2) = 'DK')          and (string(number(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 3, 8))) != 'NaN'))                         or                                  (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cac:TaxScheme/cbc:ID/text()) = 'VAT')                         and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text()) = 10)          and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 1, 2) = 'DK')          and (string(number(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 3, 8))) != 'NaN'))                                  )"/>
+         <axsl:when test="not((normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cac:TaxScheme/cbc:ID/text()) = 'VAT')       and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text()) = 10)          and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 1, 2) = 'DK')          and (string-length(translate(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 3, 8), '1234567890', '')) = 0))       or       (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cac:TaxScheme/cbc:ID/text()) = 'VAT')       and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text()) = 10)          and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 1, 2) = 'DK')          and (string-length(translate(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 3, 8), '1234567890', '')) = 0))       )"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cac:TaxScheme/cbc:ID/text()) = 'VAT') and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text()) = 10) and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 1, 2) = 'DK') and (string(number(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 3, 8))) != 'NaN')) or (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cac:TaxScheme/cbc:ID/text()) = 'VAT') and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text()) = 10) and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 1, 2) = 'DK') and (string(number(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 3, 8))) != 'NaN')) )">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cac:TaxScheme/cbc:ID/text()) = 'VAT') and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text()) = 10) and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 1, 2) = 'DK') and (string-length(translate(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[1]/cbc:CompanyID/text(), 3, 8), '1234567890', '')) = 0)) or (normalize-space(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cac:TaxScheme/cbc:ID/text()) = 'VAT') and not ((string-length(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text()) = 10) and (substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 1, 2) = 'DK') and (string-length(translate(substring(cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme[2]/cbc:CompanyID/text(), 3, 8), '1234567890', '')) = 0)) )">
                <axsl:attribute name="id">DK-R-015</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -17043,9 +17237,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((boolean(/ubl-creditnote:CreditNote))                         and (number(cac:LegalMonetaryTotal/cbc:PayableAmount/text()) &lt; 0)                         )"/>
+         <axsl:when test="not((boolean(/ubl-creditnote:CreditNote) and ($DKCustomerCountry = 'DK'))       and (number(cac:LegalMonetaryTotal/cbc:PayableAmount/text()) &lt; 0)       )"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((boolean(/ubl-creditnote:CreditNote)) and (number(cac:LegalMonetaryTotal/cbc:PayableAmount/text()) &lt; 0) )">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((boolean(/ubl-creditnote:CreditNote) and ($DKCustomerCountry = 'DK')) and (number(cac:LegalMonetaryTotal/cbc:PayableAmount/text()) &lt; 0) )">
                <axsl:attribute name="id">DK-R-016</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">
@@ -17060,13 +17254,13 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-creditnote:CreditNote[$supplierCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-creditnote:CreditNote[$supplierCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification" priority="1003" mode="M34">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote[$supplierCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-creditnote:CreditNote[$supplierCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification"/>
+   <axsl:template match="ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification" priority="1003" mode="M34">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification | ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((boolean(cbc:ID))                          and (normalize-space(cbc:ID/@schemeID) = '')                         )"/>
+         <axsl:when test="not((boolean(cbc:ID))        and (normalize-space(cbc:ID/@schemeID) = '')       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((boolean(cbc:ID)) and (normalize-space(cbc:ID/@schemeID) = '') )">
                <axsl:attribute name="id">DK-R-013</axsl:attribute>
@@ -17083,8 +17277,8 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:PaymentMeans" priority="1002" mode="M34">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:PaymentMeans"/>
+   <axsl:template match="ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:PaymentMeans" priority="1002" mode="M34">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:PaymentMeans"/>
 
 		<!--ASSERT -->
 
@@ -17105,7 +17299,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not(((cbc:PaymentMeansCode = '31') or (cbc:PaymentMeansCode = '42'))                         and not((normalize-space(cac:PayeeFinancialAccount/cbc:ID/text()) != '') and (normalize-space(cac:PayeeFinancialAccount/cac:FinancialInstitutionBranch/cbc:ID/text()) != ''))                         )"/>
+         <axsl:when test="not(((cbc:PaymentMeansCode = '31') or (cbc:PaymentMeansCode = '42'))       and not((normalize-space(cac:PayeeFinancialAccount/cbc:ID/text()) != '') and (normalize-space(cac:PayeeFinancialAccount/cac:FinancialInstitutionBranch/cbc:ID/text()) != ''))       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not(((cbc:PaymentMeansCode = '31') or (cbc:PaymentMeansCode = '42')) and not((normalize-space(cac:PayeeFinancialAccount/cbc:ID/text()) != '') and (normalize-space(cac:PayeeFinancialAccount/cac:FinancialInstitutionBranch/cbc:ID/text()) != '')) )">
                <axsl:attribute name="id">DK-R-006</axsl:attribute>
@@ -17121,7 +17315,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cbc:PaymentMeansCode = '49')                         and not((normalize-space(cac:PaymentMandate/cbc:ID/text()) != '')                                and (normalize-space(cac:PaymentMandate/cac:PayerFinancialAccount/cbc:ID/text()) != ''))                         )"/>
+         <axsl:when test="not((cbc:PaymentMeansCode = '49')       and not((normalize-space(cac:PaymentMandate/cbc:ID/text()) != '')           and (normalize-space(cac:PaymentMandate/cac:PayerFinancialAccount/cbc:ID/text()) != ''))       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cbc:PaymentMeansCode = '49') and not((normalize-space(cac:PaymentMandate/cbc:ID/text()) != '') and (normalize-space(cac:PaymentMandate/cac:PayerFinancialAccount/cbc:ID/text()) != '')) )">
                <axsl:attribute name="id">DK-R-007</axsl:attribute>
@@ -17137,7 +17331,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cbc:PaymentMeansCode = '50')                         and not(((substring(cbc:PaymentID, 1, 3) = '01#')                                   or (substring(cbc:PaymentID, 1, 3) = '04#')                                   or (substring(cbc:PaymentID, 1, 3) = '15#'))                                 and (string-length(cac:PayeeFinancialAccount/cbc:ID/text()) = 7)                                 )                         )"/>
+         <axsl:when test="not((cbc:PaymentMeansCode = '50')       and not(((substring(cbc:PaymentID, 1, 3) = '01#')           or (substring(cbc:PaymentID, 1, 3) = '04#')           or (substring(cbc:PaymentID, 1, 3) = '15#'))         and (string-length(cac:PayeeFinancialAccount/cbc:ID/text()) = 7)         )       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cbc:PaymentMeansCode = '50') and not(((substring(cbc:PaymentID, 1, 3) = '01#') or (substring(cbc:PaymentID, 1, 3) = '04#') or (substring(cbc:PaymentID, 1, 3) = '15#')) and (string-length(cac:PayeeFinancialAccount/cbc:ID/text()) = 7) ) )">
                <axsl:attribute name="id">DK-R-008</axsl:attribute>
@@ -17153,7 +17347,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cbc:PaymentMeansCode = '50')                         and ((substring(cbc:PaymentID, 1, 3) = '04#')                               or (substring(cbc:PaymentID, 1, 3)  = '15#'))                         and not(string-length(cbc:PaymentID) = 19)                         )"/>
+         <axsl:when test="not((cbc:PaymentMeansCode = '50')       and ((substring(cbc:PaymentID, 1, 3) = '04#')          or (substring(cbc:PaymentID, 1, 3)  = '15#'))       and not(string-length(cbc:PaymentID) = 19)       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cbc:PaymentMeansCode = '50') and ((substring(cbc:PaymentID, 1, 3) = '04#') or (substring(cbc:PaymentID, 1, 3) = '15#')) and not(string-length(cbc:PaymentID) = 19) )">
                <axsl:attribute name="id">DK-R-009</axsl:attribute>
@@ -17169,7 +17363,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cbc:PaymentMeansCode = '93')                         and not(((substring(cbc:PaymentID, 1, 3) = '71#')                                   or (substring(cbc:PaymentID, 1, 3) = '73#')                                   or (substring(cbc:PaymentID, 1, 3) = '75#'))                                 and (string-length(cac:PayeeFinancialAccount/cbc:ID/text()) = 8)                                 )                         )"/>
+         <axsl:when test="not((cbc:PaymentMeansCode = '93')       and not(((substring(cbc:PaymentID, 1, 3) = '71#')           or (substring(cbc:PaymentID, 1, 3) = '73#')           or (substring(cbc:PaymentID, 1, 3) = '75#'))         and (string-length(cac:PayeeFinancialAccount/cbc:ID/text()) = 8)         )       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cbc:PaymentMeansCode = '93') and not(((substring(cbc:PaymentID, 1, 3) = '71#') or (substring(cbc:PaymentID, 1, 3) = '73#') or (substring(cbc:PaymentID, 1, 3) = '75#')) and (string-length(cac:PayeeFinancialAccount/cbc:ID/text()) = 8) ) )">
                <axsl:attribute name="id">DK-R-010</axsl:attribute>
@@ -17185,7 +17379,7 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cbc:PaymentMeansCode = '93')                         and ((substring(cbc:PaymentID, 1, 3) = '71#')                               or (substring(cbc:PaymentID, 1, 3)  = '75#'))                         and not((string-length(cbc:PaymentID) = 18)                               or (string-length(cbc:PaymentID) = 19))                         )"/>
+         <axsl:when test="not((cbc:PaymentMeansCode = '93')       and ((substring(cbc:PaymentID, 1, 3) = '71#')          or (substring(cbc:PaymentID, 1, 3)  = '75#'))       and not((string-length(cbc:PaymentID) = 18)          or (string-length(cbc:PaymentID) = 19))       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cbc:PaymentMeansCode = '93') and ((substring(cbc:PaymentID, 1, 3) = '71#') or (substring(cbc:PaymentID, 1, 3) = '75#')) and not((string-length(cbc:PaymentID) = 18) or (string-length(cbc:PaymentID) = 19)) )">
                <axsl:attribute name="id">DK-R-011</axsl:attribute>
@@ -17202,15 +17396,15 @@
 
 	<!--RULE -->
 
-   <axsl:template match="ubl-creditnote:CreditNote[$supplierCountry = 'DK']/cac:CreditNoteLine | ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:InvoiceLine" priority="1001" mode="M34">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote[$supplierCountry = 'DK']/cac:CreditNoteLine | ubl-invoice:Invoice[$supplierCountry = 'DK']/cac:InvoiceLine"/>
+   <axsl:template match="ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:CreditNoteLine | ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:InvoiceLine" priority="1001" mode="M34">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="ubl-creditnote:CreditNote[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:CreditNoteLine | ubl-invoice:Invoice[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']/cac:InvoiceLine"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listID = 'MP')                         and not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.05.01')                                or (cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.0501')                                )                         )"/>
+         <axsl:when test="not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listID = 'TST')       and not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.05.01')           or (cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.0501')           )       )"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listID = 'MP') and not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.05.01') or (cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.0501') ) )">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listID = 'TST') and not((cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.05.01') or (cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@listVersionID = '19.0501') ) )">
                <axsl:attribute name="id">DK-R-003</axsl:attribute>
                <axsl:attribute name="flag">warning</axsl:attribute>
                <axsl:attribute name="location">
@@ -17225,13 +17419,13 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:AllowanceCharge[$supplierCountry = 'DK']" priority="1000" mode="M34">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:AllowanceCharge[$supplierCountry = 'DK']"/>
+   <axsl:template match="cac:AllowanceCharge[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']" priority="1000" mode="M34">
+      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:AllowanceCharge[$DKSupplierCountry = 'DK' and $DKCustomerCountry = 'DK']"/>
 
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="not((cbc:AllowanceChargeReasonCode = 'ZZZ')                         and not((string-length(normalize-space(cbc:AllowanceChargeReason/text())) = 4)                                 and (number(cbc:AllowanceChargeReason) &gt;= 0)                                 and (number(cbc:AllowanceChargeReason) &lt;= 9999))                         )"/>
+         <axsl:when test="not((cbc:AllowanceChargeReasonCode = 'ZZZ')       and not((string-length(normalize-space(cbc:AllowanceChargeReason/text())) = 4)         and (number(cbc:AllowanceChargeReason) &gt;= 0)         and (number(cbc:AllowanceChargeReason) &lt;= 9999))       )"/>
          <axsl:otherwise>
             <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="not((cbc:AllowanceChargeReasonCode = 'ZZZ') and not((string-length(normalize-space(cbc:AllowanceChargeReason/text())) = 4) and (number(cbc:AllowanceChargeReason) &gt;= 0) and (number(cbc:AllowanceChargeReason) &lt;= 9999)) )">
                <axsl:attribute name="id">DK-R-004</axsl:attribute>
@@ -17580,7 +17774,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cbc:EmbeddedDocumentBinaryObject[@mimeCode]" priority="1009" mode="M37">
+   <axsl:template match="cbc:EmbeddedDocumentBinaryObject[@mimeCode]" priority="1008" mode="M37">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cbc:EmbeddedDocumentBinaryObject[@mimeCode]"/>
 
 		<!--ASSERT -->
@@ -17594,7 +17788,7 @@
                <axsl:attribute name="location">
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
-               <svrl:text>Invalid mime code.</svrl:text>
+               <svrl:text>Mime code must be according to subset of IANA code list.</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -17603,7 +17797,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:AllowanceCharge[cbc:ChargeIndicator = 'false']/cbc:AllowanceChargeReasonCode" priority="1008" mode="M37">
+   <axsl:template match="cac:AllowanceCharge[cbc:ChargeIndicator = 'false']/cbc:AllowanceChargeReasonCode" priority="1007" mode="M37">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:AllowanceCharge[cbc:ChargeIndicator = 'false']/cbc:AllowanceChargeReasonCode"/>
 
 		<!--ASSERT -->
@@ -17626,7 +17820,7 @@
 
 	<!--RULE -->
 
-   <axsl:template match="cac:AllowanceCharge[cbc:ChargeIndicator = 'true']/cbc:AllowanceChargeReasonCode" priority="1007" mode="M37">
+   <axsl:template match="cac:AllowanceCharge[cbc:ChargeIndicator = 'true']/cbc:AllowanceChargeReasonCode" priority="1006" mode="M37">
       <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:AllowanceCharge[cbc:ChargeIndicator = 'true']/cbc:AllowanceChargeReasonCode"/>
 
 		<!--ASSERT -->
@@ -17641,29 +17835,6 @@
                   <axsl:apply-templates select="." mode="schematron-select-full-path"/>
                </axsl:attribute>
                <svrl:text>Reason code MUST be according to UNCL 7161 D.16B.</svrl:text>
-            </svrl:failed-assert>
-         </axsl:otherwise>
-      </axsl:choose>
-      <axsl:apply-templates select="@*|*" mode="M37"/>
-   </axsl:template>
-
-	<!--RULE -->
-
-   <axsl:template match="cac:Country/cbc:IdentificationCode | cac:OriginCountry/cbc:IdentificationCode" priority="1006" mode="M37">
-      <svrl:fired-rule xmlns:svrl="http://purl.oclc.org/dsdl/svrl" context="cac:Country/cbc:IdentificationCode | cac:OriginCountry/cbc:IdentificationCode"/>
-
-		<!--ASSERT -->
-
-      <axsl:choose>
-         <axsl:when test="           some $code in $ISO3166             satisfies text() = $code"/>
-         <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="some $code in $ISO3166 satisfies text() = $code">
-               <axsl:attribute name="id">PEPPOL-EN16931-CL005</axsl:attribute>
-               <axsl:attribute name="flag">fatal</axsl:attribute>
-               <axsl:attribute name="location">
-                  <axsl:apply-templates select="." mode="schematron-select-full-path"/>
-               </axsl:attribute>
-               <svrl:text>Country code MUST be according to ISO 3166 Alpha-2.</svrl:text>
             </svrl:failed-assert>
          </axsl:otherwise>
       </axsl:choose>
@@ -17824,9 +17995,9 @@
 		<!--ASSERT -->
 
       <axsl:choose>
-         <axsl:when test="matches(.,'^[a-zA-Z]*[0-9]+[a-zA-Z]*$') and string-length(.) &gt;= 1 and string-length(.) &lt;= 20"/>
+         <axsl:when test="matches(.,'^(\p{IsBasicLatin})*[0-9]+(\p{IsBasicLatin})*$') and string-length(.) &gt;= 1 and string-length(.) &lt;= 20"/>
          <axsl:otherwise>
-            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="matches(.,'^[a-zA-Z]*[0-9]+[a-zA-Z]*$') and string-length(.) &gt;= 1 and string-length(.) &lt;= 20">
+            <svrl:failed-assert xmlns:svrl="http://purl.oclc.org/dsdl/svrl" test="matches(.,'^(\p{IsBasicLatin})*[0-9]+(\p{IsBasicLatin})*$') and string-length(.) &gt;= 1 and string-length(.) &lt;= 20">
                <axsl:attribute name="id">BR-IT-010</axsl:attribute>
                <axsl:attribute name="flag">fatal</axsl:attribute>
                <axsl:attribute name="location">

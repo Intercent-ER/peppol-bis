@@ -1,6 +1,7 @@
 = Fatturazione Elettronica
 PEPPOL
 :doctype: book
+:forceinclude:
 :encoding: utf-8
 :lang: it
 :toc: left
